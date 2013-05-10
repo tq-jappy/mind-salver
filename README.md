@@ -1,4 +1,4 @@
-mind-salver-
+mind-salver
 ============
 
-Canvas mindmap using CoffeeScript
+HTML5 Canvas mindmap using CoffeeScript
