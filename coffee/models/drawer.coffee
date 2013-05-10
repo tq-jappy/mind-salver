@@ -6,6 +6,10 @@ class Drawer
         @uy = @cell.halfHeight - 5
         @triangleHeightHalf = @uy * Math.tan(Math.PI / 3) / 2
 
+        @drawText = (text, x, y) =>
+            @ctx.fillText(text, x, y)
+            return
+
         @drawCircle = (x, y) =>
             @ctx.save()
             @ctx.fillStyle = 'green'
@@ -15,7 +19,7 @@ class Drawer
             @ctx.restore()
             return
 
-        @drawSquare = (x, y) =>
+        @drawRectangle = (x, y) =>
             @ctx.save()
             @ctx.fillStyle = 'purple'
             @ctx.beginPath()
@@ -36,6 +40,12 @@ class Drawer
             @ctx.lineTo(x - @ux, y + @triangleHeightHalf)
             @ctx.lineTo(x + @ux, y + @triangleHeightHalf)
             @ctx.fill()
+            #@ctx.beginPath()
+            #x += @cell.width
+            #@ctx.moveTo(x, y - @triangleHeightHalf)
+            #@ctx.lineTo(x - @ux, y + @triangleHeightHalf)
+            #@ctx.lineTo(x + @ux, y + @triangleHeightHalf)
+            #@ctx.fill()
             @ctx.restore()
             return
 

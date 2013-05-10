@@ -1,4 +1,4 @@
 class Item
-    constructor: (@x, @y, @drawer) ->
+    constructor: (@x, @y, @shape) ->
 
     update: (@x, @y) ->

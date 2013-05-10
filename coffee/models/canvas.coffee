@@ -11,23 +11,14 @@ class Canvas
         @state = {drag: false, holder: null}
 
     # 初期処理
-    init: (options={grid: true}) ->
+    init: () ->
         console.log "init canvas."
-        console.log options
 
         @items.length = 0
-        @grid = options.grid
         @state = {drag: false, holder: null}
 
         x = @cell.halfWidth
         y = @cell.halfHeight
-
-        @items.push new Item(x, y, @drawer.drawCircle)
-        y += @cell.height
-        @items.push new Item(x, y, @drawer.drawTriangle)
-        y += @cell.height
-        @items.push new Item(x, y, @drawer.drawSquare)
-        console.log @items
 
         # イベントをバインド
         @$canvas.mousedown (e) =>
@@ -47,6 +38,29 @@ class Canvas
             @moveItem(x, y)
             return false
 
+    update: (options={grid: true}) ->
+        console.log "update"
+        @grid = options.grid
+        @state = {drag: false, holder: null}
+        if @grid
+            for item in @items
+                p = @getClosestAvailablePoint(item.x, item.y)
+                item.update(p.x, p.y)
+
+    # x, y 座標は適切な位置に調整してアイテムを追加
+    addItem: (item) ->
+        p = @getClosestAvailablePoint(item.x, item.y)
+        item.update(p.x, p.y)
+
+        @items.push item
+
+    # 一番近い有効な (x, y) を計算
+    getClosestAvailablePoint: (x, y) ->
+        x = @round(x, 0, @width)
+        y = @round(y, 0, @height)
+        p = if @grid then @closestCenterPoint(x, y) else {x: x, y: y}
+        return p
+
     # イベントが起こった座標をキャンバスの左上を (0,0) として取得
     getEventPoint: (e) ->
         cx = e.pageX - @offsetX
@@ -62,6 +76,10 @@ class Canvas
             @state.drag = true
             @state.holder = item
 
+        # debug
+        # a = ({x: item.x, y: item.y} for item in @items when item.shape isnt "triangle")
+        # console.log a
+
     # 指定した (x, y) にアイテムを置く
     putItem: (x, y) ->
         return unless @state.drag
@@ -69,9 +87,7 @@ class Canvas
         target = @state.holder
         return unless target?
 
-        x = @round(x, 0, @width)
-        y = @round(y, 0, @height)
-        p = if @grid then @closestCenterPoint(x, y) else {x: x, y: y}
+        p = @getClosestAvailablePoint(x, y)
         target.update(p.x, p.y)
         @draw()
 
@@ -129,6 +145,13 @@ class Canvas
     draw: () ->
         console.log "draw"
         @drawer.clean(@width, @height, @grid)
-        for item in @items
-            item.drawer(item.x, item.y)
 
+        for item in @items
+            switch item.shape
+                when "circle"
+                    @drawer.drawCircle(item.x, item.y)
+                when "triangle"
+                    @drawer.drawTriangle(item.x, item.y)
+                when "rectangle"
+                    @drawer.drawRectangle(item.x, item.y)
+            @drawer.drawText("aaa", item.x, item.y)
