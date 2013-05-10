@@ -1,6 +1,6 @@
 class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
-        console.log "create Canvas. #{@width} : #{@height}"
+        console.log "create Canvas."
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
         @drawer = new Drawer(@ctx, @cell)
         @offsetX = @$canvas.offset().left
@@ -56,8 +56,8 @@ class Canvas
 
     # 一番近い有効な (x, y) を計算
     getClosestAvailablePoint: (x, y) ->
-        x = @round(x, 0, @width)
-        y = @round(y, 0, @height)
+        x = round(x, 0, @width)
+        y = round(y, 0, @height)
         p = if @grid then @closestCenterPoint(x, y) else {x: x, y: y}
         return p
 
@@ -124,20 +124,12 @@ class Canvas
 
         return {x: x, y: y}
 
-    # n が min 以上 max 以下の範囲になるように丸める(ユーティリティ)
-    round: (n, min, max) ->
-        if n < min
-            return min
-        if n > max
-            return max
-        return n
-
     # 指定した位置にあるアイテムを取得
     getItemAt: (x, y) ->
         dx = @cell.halfWidth
         dy = @cell.halfHeight
         for item in @items
-            if ((item.x - dx <= x <= item.x + dx) && (item.y - dy <= y <= item.y + dy))
+            if isPointInArea(x, y, item.x, item.y, dx, dy)
                 return item
         return null
 
