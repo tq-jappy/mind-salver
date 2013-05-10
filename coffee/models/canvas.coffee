@@ -5,8 +5,8 @@ class Canvas
         @drawer = new Drawer(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
+        @data = new CanvasData()
 
-        @items = []
         @grid = true
         @state = {drag: false, holder: null}
 
@@ -14,7 +14,6 @@ class Canvas
     init: () ->
         console.log "init canvas."
 
-        @items.length = 0
         @state = {drag: false, holder: null}
 
         x = @cell.halfWidth
@@ -51,8 +50,7 @@ class Canvas
     addItem: (item) ->
         p = @getClosestAvailablePoint(item.x, item.y)
         item.update(p.x, p.y)
-
-        @items.push item
+        @data.addItem(item)
 
     # 一番近い有効な (x, y) を計算
     getClosestAvailablePoint: (x, y) ->
@@ -126,10 +124,8 @@ class Canvas
 
     # 指定した位置にあるアイテムを取得
     getItemAt: (x, y) ->
-        dx = @cell.halfWidth
-        dy = @cell.halfHeight
-        for item in @items
-            if isPointInArea(x, y, item.x, item.y, dx, dy)
+        for item in @data.items
+            if isPointInArea(x, y, item.x, item.y, @cell.halfWidth, @cell.halfHeight)
                 return item
         return null
 
@@ -138,7 +134,7 @@ class Canvas
         console.log "draw"
         @drawer.clean(@width, @height, @grid)
 
-        for item in @items
+        for item in @data.items
             switch item.shape
                 when "circle"
                     @drawer.drawCircle(item.x, item.y)
@@ -146,4 +142,4 @@ class Canvas
                     @drawer.drawTriangle(item.x, item.y)
                 when "rectangle"
                     @drawer.drawRectangle(item.x, item.y)
-            @drawer.drawText("aaa", item.x, item.y)
+            @drawer.drawText(item.text, item.x, item.y)
