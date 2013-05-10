@@ -1,17 +1,18 @@
 class Drawer
-    constructor: (@ctx) ->
+    constructor: (@ctx, @cell) ->
         console.log "1"
         console.log @ctx
         @pi2 = Math.PI * 2            # 2π
-        @gridWidth = 30               # グリッド間隔(px)
-        @baseLength = @gridWidth / 2 - 5
-        @triangleHeightHalf = @baseLength * Math.tan(Math.PI / 3) / 2
+
+        @ux = @cell.halfWidth - 5
+        @uy = @cell.halfHeight - 5
+        @triangleHeightHalf = @uy * Math.tan(Math.PI / 3) / 2
 
         @drawCircle = (x, y) =>
             @ctx.save()
             @ctx.fillStyle = 'green'
             @ctx.beginPath()
-            @ctx.arc(x, y, @baseLength, 0, @pi2, false)
+            @ctx.arc(x, y, @uy, 0, @pi2, false)
             @ctx.fill()
             @ctx.restore()
 
@@ -19,10 +20,10 @@ class Drawer
             @ctx.save()
             @ctx.fillStyle = 'purple'
             @ctx.beginPath()
-            @ctx.moveTo(x - @baseLength, y - @baseLength)
-            @ctx.lineTo(x - @baseLength, y + @baseLength)
-            @ctx.lineTo(x + @baseLength, y + @baseLength)
-            @ctx.lineTo(x + @baseLength, y - @baseLength)
+            @ctx.moveTo(x - @ux, y - @uy)
+            @ctx.lineTo(x - @ux, y + @uy)
+            @ctx.lineTo(x + @ux, y + @uy)
+            @ctx.lineTo(x + @ux, y - @uy)
             @ctx.closePath()
             @ctx.fill()
             @ctx.restore()
@@ -32,8 +33,8 @@ class Drawer
             @ctx.fillStyle = 'blue'
             @ctx.beginPath()
             @ctx.moveTo(x, y - @triangleHeightHalf)
-            @ctx.lineTo(x - @baseLength, y + @triangleHeightHalf)
-            @ctx.lineTo(x + @baseLength, y + @triangleHeightHalf)
+            @ctx.lineTo(x - @ux, y + @triangleHeightHalf)
+            @ctx.lineTo(x + @ux, y + @triangleHeightHalf)
             @ctx.fill()
             @ctx.restore()
 
@@ -45,14 +46,14 @@ class Drawer
             @ctx.globalAlpha = 0.5
             @ctx.strokeStyle = "#000033"
             @ctx.lineWidth = 1
-            for h in [0..10]
+            for h in [0..10] # 縦線
                 @ctx.beginPath()
-                @ctx.moveTo(h * @gridWidth, 0)
-                @ctx.lineTo(h * @gridWidth, height)
+                @ctx.moveTo(h * @cell.width, 0)
+                @ctx.lineTo(h * @cell.width, height)
                 @ctx.stroke()
             for v in [0..10]
                 @ctx.beginPath()
-                @ctx.moveTo(0, v * @gridWidth)
-                @ctx.lineTo(width, v * @gridWidth)
+                @ctx.moveTo(0, v * @cell.height)
+                @ctx.lineTo(width, v * @cell.height)
                 @ctx.stroke()
             @ctx.restore()

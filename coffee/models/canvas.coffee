@@ -2,9 +2,8 @@ class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         console.log "create Canvas. #{@width} : #{@height}"
         @items = []
-        @gridWidth = 30               # グリッド間隔(px)
-        @gridWidthHalf = @gridWidth/2 # グリッド間隔の半分
-        @drawer = new Drawer(@ctx)
+        @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
+        @drawer = new Drawer(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @state = {dragging: false, holder: null}
@@ -13,13 +12,13 @@ class Canvas
     # 初期処理
     init: () ->
         console.log Canvas.type
-        x = @gridWidthHalf
-        y = @gridWidthHalf
+        x = @cell.halfWidth
+        y = @cell.halfHeight
 
         @items.push new Item(x, y, @drawer.drawCircle)
-        y += @gridWidth
+        y += @cell.height
         @items.push new Item(x, y, @drawer.drawTriangle)
-        y += @gridWidth
+        y += @cell.height
         @items.push new Item(x, y, @drawer.drawSquare)
         console.log @items
 
@@ -67,12 +66,12 @@ class Canvas
 
     # 一番近い x, y を返す
     closestCenterPoint: (x, y) ->
-        xr = x % @gridWidth
-        dx = if (xr < @gridWidthHalf) then (@gridWidthHalf - xr) else (@gridWidthHalf - xr)
+        xr = x % @cell.width
+        dx = if (xr < @cell.halfWidth) then (@cell.halfWidth - xr) else (@cell.halfWidth - xr)
         x += dx
 
-        yr = y % @gridWidth
-        dy = if (yr < @gridWidthHalf) then (@gridWidthHalf - yr) else (@gridWidthHalf - yr)
+        yr = y % @cell.height
+        dy = if (yr < @cell.halfHeight) then (@cell.halfHeight - yr) else (@cell.halfHeight - yr)
         y += dy
 
         return {x: x, y: y}
@@ -102,9 +101,10 @@ class Canvas
         return false
 
     getItemAt: (x, y) ->
-        d = @gridWidthHalf
+        dx = @cell.halfWidth
+        dy = @cell.halfHeight
         for item in @items
-            if ((item.x - d <= x <= item.x + d) && (item.y - d <= y <= item.y + d))
+            if ((item.x - dx <= x <= item.x + dx) && (item.y - dy <= y <= item.y + dy))
                 return item
         return null
 
