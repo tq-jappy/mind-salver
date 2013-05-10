@@ -8,3 +8,6 @@ $ ->
     canvas = new Canvas($canvas, ctx, $canvas[0].width, $canvas[0].height)
     canvas.init()
     canvas.draw()
+
+    panel = new ModePanel($("#modePanel"), canvas)
+    panel.init()

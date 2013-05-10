@@ -1,17 +1,24 @@
 class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         console.log "create Canvas. #{@width} : #{@height}"
-        @items = []
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
         @drawer = new Drawer(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
-        @state = {dragging: false, holder: null}
-        console.log "OK."
+
+        @items = []
+        @grid = true
+        @state = {drag: false, holder: null}
 
     # 初期処理
-    init: () ->
-        console.log Canvas.type
+    init: (options={grid: true}) ->
+        console.log "init canvas."
+        console.log options
+
+        @items.length = 0
+        @grid = options.grid
+        @state = {drag: false, holder: null}
+
         x = @cell.halfWidth
         y = @cell.halfHeight
 
@@ -24,45 +31,67 @@ class Canvas
 
         # イベントをバインド
         @$canvas.mousedown (e) =>
-            @onMousedown(e)
+            [x, y] = @getEventPoint(e)
+            @takeItem(x, y)
+            return false
         @$canvas.mouseup (e) =>
-            @onMouseup(e)
+            [x, y] = @getEventPoint(e)
+            @putItem(x, y)
+            return false
         @$canvas.mouseleave (e) =>
-            @onMouseup(e)
+            [x, y] = @getEventPoint(e)
+            @putItem(x, y)
+            return false
         @$canvas.mousemove (e) =>
-            @onMousemove(e)
+            [x, y] = @getEventPoint(e)
+            @moveItem(x, y)
+            return false
 
-    onMousedown: (e) ->
-        return false if @state.dragging
-
+    # イベントが起こった座標をキャンバスの左上を (0,0) として取得
+    getEventPoint: (e) ->
         cx = e.pageX - @offsetX
         cy = e.pageY - @offsetY
-        item = @getItemAt(cx, cy)
-        if item?
-            @state.dragging = true
-            @state.holder = item
-        return false
+        return [cx, cy]
 
-    onMouseup: (e) ->
-        return false unless @state.dragging
+    # 指定した (x, y) にあるアイテムをドラッグ可能状態にする
+    takeItem: (x, y) ->
+        return if @state.drag
+
+        item = @getItemAt(x, y)
+        if item?
+            @state.drag = true
+            @state.holder = item
+
+    # 指定した (x, y) にアイテムを置く
+    putItem: (x, y) ->
+        return unless @state.drag
 
         target = @state.holder
-        return false unless target?
+        return unless target?
 
-        cx = e.pageX - @offsetX
-        cy = e.pageY - @offsetY
-        cx = @round(cx, 0, @width)
-        cy = @round(cy, 0, @height)
-        # 中心にセット
-        p = @closestCenterPoint(cx, cy)
-        target.x = p.x
-        target.y = p.y
+        x = @round(x, 0, @width)
+        y = @round(y, 0, @height)
+        p = if @grid then @closestCenterPoint(x, y) else {x: x, y: y}
+        target.update(p.x, p.y)
         @draw()
 
-        @state.dragging = false
+        @state.drag = false
         @state.holder = null
 
-        return false
+        return
+
+    # ドラッグ中のアイテムを (x, y) に移動する
+    moveItem: (x, y) ->
+        return unless @state.drag
+
+        target = @state.holder
+        return unless target?
+
+        fpp = 3 # frames per pixel (何px動いたら画面更新するか)
+        if (Math.abs(x - target.x) >= fpp || Math.abs(y - target.y) >= fpp)
+            target.update(x, y)
+            @draw()
+        return
 
     # 一番近い x, y を返す
     closestCenterPoint: (x, y) ->
@@ -74,6 +103,9 @@ class Canvas
         dy = if (yr < @cell.halfHeight) then (@cell.halfHeight - yr) else (@cell.halfHeight - yr)
         y += dy
 
+        x -= @cell.width if x > @width
+        y -= @cell.height if y > @height
+
         return {x: x, y: y}
 
     # n が min 以上 max 以下の範囲になるように丸める(ユーティリティ)
@@ -84,22 +116,7 @@ class Canvas
             return max
         return n
 
-    onMousemove: (e) ->
-        return false unless @state.dragging
-
-        target = @state.holder
-        return false unless target?
-
-        cx = e.pageX - @offsetX
-        cy = e.pageY - @offsetY
-        fpp = 3 # frames per pixel (何px動いたら画面更新するか)
-        if (Math.abs(cx - target.x) >= fpp || Math.abs(cy - target.y) >= fpp)
-            target.x = cx
-            target.y = cy
-            @draw()
-
-        return false
-
+    # 指定した位置にあるアイテムを取得
     getItemAt: (x, y) ->
         dx = @cell.halfWidth
         dy = @cell.halfHeight
@@ -108,13 +125,10 @@ class Canvas
                 return item
         return null
 
-    hoge: (e) ->
-        console.log "#{e.pageX} : #{e.pageY}"
-
     # 画面表示
     draw: () ->
         console.log "draw"
-        @drawer.clearGrid(@width, @height)
+        @drawer.clean(@width, @height, @grid)
         for item in @items
             item.drawer(item.x, item.y)
 

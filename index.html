@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>Coffee Break</title>
-    <!-- <link rel="stylesheet" href="./css/base.css" /> -->
+    <title>MindSalver</title>
+    <link rel="stylesheet" href="./css/base.css" />
     <script src="./js/jquery-1.9.1.min.js"></script>
     <script src="./js/mind-salver.js"></script>
     <!--[if lt IE 9]>
@@ -11,9 +11,15 @@
     <![endif]-->
 </head>
 <body>
-    <canvas id="canvas" width="300" height="300" style="margin: 120px 0 0 100px; background:#f0f0f0;"></canvas>
-
-    <div class="content">
+    <div id="modePanel" class="controls">
+        <label class="radio">
+            <input type="radio" name="grid" value="true" checked> グリッド
+        </label>
+        <label class="radio">
+            <input type="radio" name="grid" value="false"> フリー
+        </label>
     </div>
+
+    <canvas id="canvas" width="800" height="300" class="canvas"></canvas>
 </body>
 </html>

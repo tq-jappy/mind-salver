@@ -1,0 +1,10 @@
+.controls {
+    background: #f0f0f0;
+    border: 1px solid #d0d0d0;
+    padding: 0.8ex;
+}
+
+.canvas {
+    margin: 40px 0 0 40px;
+    background:#f0f0f0;
+}

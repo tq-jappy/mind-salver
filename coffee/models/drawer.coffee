@@ -1,7 +1,5 @@
 class Drawer
     constructor: (@ctx, @cell) ->
-        console.log "1"
-        console.log @ctx
         @pi2 = Math.PI * 2            # 2π
 
         @ux = @cell.halfWidth - 5
@@ -15,6 +13,7 @@ class Drawer
             @ctx.arc(x, y, @uy, 0, @pi2, false)
             @ctx.fill()
             @ctx.restore()
+            return
 
         @drawSquare = (x, y) =>
             @ctx.save()
@@ -27,6 +26,7 @@ class Drawer
             @ctx.closePath()
             @ctx.fill()
             @ctx.restore()
+            return
 
         @drawTriangle = (x, y) =>
             @ctx.save()
@@ -37,23 +37,31 @@ class Drawer
             @ctx.lineTo(x + @ux, y + @triangleHeightHalf)
             @ctx.fill()
             @ctx.restore()
+            return
 
         # 画面を初期化
-        @clearGrid = (width, height) =>
+        @clean = (width, height, grid=true) =>
             @ctx.clearRect(0, 0, width, height)
+
+            return unless grid
+
             # グリッド表示
             @ctx.save()
             @ctx.globalAlpha = 0.5
             @ctx.strokeStyle = "#000033"
             @ctx.lineWidth = 1
-            for h in [0..10] # 縦線
+            verticalLineNum = width / @cell.width
+            horizontalLineNum = height / @cell.height
+            for h in [0..verticalLineNum]
                 @ctx.beginPath()
                 @ctx.moveTo(h * @cell.width, 0)
                 @ctx.lineTo(h * @cell.width, height)
                 @ctx.stroke()
-            for v in [0..10]
+            for v in [0..horizontalLineNum]
                 @ctx.beginPath()
                 @ctx.moveTo(0, v * @cell.height)
                 @ctx.lineTo(width, v * @cell.height)
                 @ctx.stroke()
             @ctx.restore()
+
+            return
