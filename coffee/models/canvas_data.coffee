@@ -26,7 +26,18 @@ class CanvasData
             p = @getClosestAvailablePoint(x, y)
             x = p.x
             y = p.y
+        else
+            # 重なる場合
+            for other in @items
+                if item.shape isnt other.shape
+                    # 衝突判定
+                    if (item.isHit(other))
+                        item.restore()
+                        return
+
         item.update(x, y)
+        item.clear()
+        return
 
     # 一番近い有効な (x, y) を計算
     getClosestAvailablePoint: (x, y) ->

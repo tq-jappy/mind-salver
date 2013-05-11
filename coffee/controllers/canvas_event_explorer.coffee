@@ -11,6 +11,7 @@ class CanvasEventExplorer
 
         item = @data.getItemAt(x, y)
         if item?
+            item.save()
             @state.drag = true
             @state.holder = item
         return false
@@ -36,7 +37,7 @@ class CanvasEventExplorer
         target = @state.holder
         return false unless target?
 
-        fpp = 3 # frames per pixel (何px動いたら画面更新するか)
+        fpp = 1 # frames per pixel (何px動いたら画面更新するか)
         if (Math.abs(x - target.x) >= fpp || Math.abs(y - target.y) >= fpp)
             target.update(x, y)
             return true
