@@ -3,6 +3,10 @@ hello = ->
     console.log "hello"
     return
 
+log = (message) ->
+    console.log message
+    return
+
 # n が min 以上 max 以内の範囲になるように変換して返す。
 round = (n, min, max) ->
     if n < min

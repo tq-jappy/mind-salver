@@ -1,10 +1,9 @@
 class Drawer
     constructor: (@ctx, @cell) ->
-        @pi2 = Math.PI * 2            # 2π
-
-        @ux = @cell.halfWidth - 5
-        @uy = @cell.halfHeight - 5
-        @triangleHeightHalf = @uy * Math.tan(Math.PI / 3) / 2
+        @pi2 = Math.PI * 2 # 計算用 2π
+        @ux = @cell.halfWidth - 5 # 計算用
+        @uy = @cell.halfHeight - 5 # 計算用
+        @triangleHeightHalf = @uy * Math.tan(Math.PI / 3) / 2 # 計算用
 
         @drawText = (text, x, y) =>
             @ctx.fillText(text, x, y)

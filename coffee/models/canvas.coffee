@@ -1,44 +1,48 @@
 class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
-        console.log "create Canvas."
+        log "create Canvas."
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
         @drawer = new Drawer(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @data = new CanvasData(@cell, @width, @height)
+        @handlers = {
+            explorer: new CanvasEventExplorer(@data)
+        }
+        @handler = @handlers.explorer
 
         @grid = true
-        @state = {drag: false, holder: null}
 
     # 初期処理
     init: () ->
-        console.log "init canvas."
-
-        @state = {drag: false, holder: null}
+        log "init canvas."
 
         # イベントをバインド
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
-            @onDown(x, y)
+            if @handler.onDown(x, y)
+                @draw()
             return false
         @$canvas.mouseup (e) =>
             [x, y] = @getEventPoint(e)
-            @onUp(x, y)
+            if @handler.onUp(x, y)
+                @draw()
             return false
         @$canvas.mouseleave (e) =>
             [x, y] = @getEventPoint(e)
-            @onUp(x, y)
+            if @handler.onUp(x, y)
+                @draw()
             return false
         @$canvas.mousemove (e) =>
             [x, y] = @getEventPoint(e)
-            @onMove(x, y)
+            if @handler.onMove(x, y)
+                @draw()
             return false
 
+    # Canvas 自身のオプションを更新する
     update: (options={grid: true}) ->
-        console.log "update"
         @grid = options.grid
         @data.grid = options.grid
-        @state = {drag: false, holder: null}
 
         @data.updateAll()
 
@@ -47,42 +51,6 @@ class Canvas
         cx = e.pageX - @offsetX
         cy = e.pageY - @offsetY
         return [cx, cy]
-
-    onDown: (x, y) ->
-        return if @state.drag
-
-        item = @data.getItemAt(x, y)
-        if item?
-            @state.drag = true
-            @state.holder = item
-
-    # 指定した (x, y) にアイテムを置く
-    onUp: (x, y) ->
-        return unless @state.drag
-
-        target = @state.holder
-        return unless target?
-
-        @data.updateItem(target, x, y)
-        @draw()
-
-        @state.drag = false
-        @state.holder = null
-
-        return
-
-    # ドラッグ中のアイテムを (x, y) に移動する
-    onMove: (x, y) ->
-        return unless @state.drag
-
-        target = @state.holder
-        return unless target?
-
-        fpp = 3 # frames per pixel (何px動いたら画面更新するか)
-        if (Math.abs(x - target.x) >= fpp || Math.abs(y - target.y) >= fpp)
-            target.update(x, y)
-            @draw()
-        return
 
     # 画面表示
     draw: () ->
