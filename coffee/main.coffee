@@ -11,9 +11,9 @@ $ ->
     canvas = new Canvas($canvas, ctx, $canvas[0].width, $canvas[0].height)
     canvas.init()
 
-    canvas.addItem(new Item(50, 50, "circle"))
-    canvas.addItem(new Item(123, 77, "triangle"))
-    canvas.addItem(new Item(77, 255, "rectangle"))
+    canvas.data.addItem(new Item(50, 50, "circle"))
+    canvas.data.addItem(new Item(123, 77, "triangle"))
+    canvas.data.addItem(new Item(77, 255, "rectangle"))
 
     canvas.draw()
 
