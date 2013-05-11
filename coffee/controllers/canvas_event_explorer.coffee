@@ -1,6 +1,9 @@
 # 移動や表示領域変更時などのイベント処理
 class CanvasEventExplorer
     constructor: (@data) ->
+        @init()
+
+    init: () ->
         @state = {drag: false, holder: null}
 
     onDown: (x, y) ->

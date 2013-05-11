@@ -1,10 +1,12 @@
 class CanvasData
     constructor: (@cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
-        console.log "data init."
+        @paintTraces = []
+        log "data init."
 
     init: () ->
         @items.length = 0
+        @paintTraces.length = 0
         return
 
     # 全てのアイテムを更新

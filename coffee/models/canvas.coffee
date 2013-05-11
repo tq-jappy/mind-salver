@@ -8,43 +8,49 @@ class Canvas
         @data = new CanvasData(@cell, @width, @height)
         @handlers = {
             explorer: new CanvasEventExplorer(@data)
+            painter: new CanvasEventPainter(@data)
         }
-        @handler = @handlers.explorer
+        @handler = "explorer"
 
         @grid = true
 
     # 初期処理
     init: () ->
         log "init canvas."
+        @data.init()
 
         # イベントをバインド
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
-            if @handler.onDown(x, y)
+            if @handlers[@handler].onDown(x, y)
                 @draw()
             return false
         @$canvas.mouseup (e) =>
             [x, y] = @getEventPoint(e)
-            if @handler.onUp(x, y)
+            if @handlers[@handler].onUp(x, y)
                 @draw()
             return false
         @$canvas.mouseleave (e) =>
             [x, y] = @getEventPoint(e)
-            if @handler.onUp(x, y)
+            if @handlers[@handler].onUp(x, y)
                 @draw()
             return false
         @$canvas.mousemove (e) =>
             [x, y] = @getEventPoint(e)
-            if @handler.onMove(x, y)
+            if @handlers[@handler].onMove(x, y)
                 @draw()
             return false
 
     # Canvas 自身のオプションを更新する
-    update: (options={grid: true}) ->
-        @grid = options.grid
-        @data.grid = options.grid
+    update: (options={}) ->
+        if options.grid?
+            @grid = options.grid
+            @data.grid = options.grid
+            @data.updateAll()
 
-        @data.updateAll()
+        if options.mode?
+            @handler = options.mode
+            @handlers[@handler].init()
 
     # イベントが起こった座標をキャンバスの左上を (0,0) として取得
     getEventPoint: (e) ->
@@ -54,7 +60,7 @@ class Canvas
 
     # 画面表示
     draw: () ->
-        console.log "draw"
+        log "draw"
         @drawer.clean(@width, @height, @grid)
 
         for item in @data.items
@@ -66,3 +72,5 @@ class Canvas
                 when "rectangle"
                     @drawer.drawRectangle(item.x, item.y)
             @drawer.drawText(item.text, item.x, item.y)
+
+        @drawer.drawTraceLines(@data.paintTraces)

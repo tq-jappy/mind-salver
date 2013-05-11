@@ -9,6 +9,39 @@ class Drawer
             @ctx.fillText(text, x, y)
             return
 
+        @drawTraceLines = (pointTraces) =>
+            @ctx.save()
+            @ctx.lineWidth = 2
+            @ctx.fillStyle = 'green'
+            @ctx.strokeStyle = 'green'
+
+            for trace in pointTraces
+                points = trace.points
+                if points.length is 1
+                    @ctx.beginPath()
+                    @ctx.arc(points[0].x, points[0].y, 2, 0, @pi2, false)
+                    @ctx.fill()
+                else if points.length > 1
+                    @ctx.beginPath()
+                    for p, i in points
+                        if i is 0
+                            @ctx.moveTo(p.x, p.y)
+                        if i > 1
+                            @ctx.lineTo(p.x, p.y)
+                    @ctx.stroke()
+
+            @ctx.restore()
+            return
+
+        @drawLine = (x, y) =>
+            @ctx.save()
+            @ctx.fillStyle = 'green'
+            @ctx.beginPath()
+            @ctx.arc(x, y, 2, 0, @pi2, false)
+            @ctx.fill()
+            @ctx.restore()
+            return
+
         @drawCircle = (x, y) =>
             @ctx.save()
             @ctx.fillStyle = 'green'
