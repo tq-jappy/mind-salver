@@ -1,3 +1,4 @@
+# Canvas 内のデータを管理するクラス
 class CanvasData
     constructor: (@cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
@@ -26,18 +27,29 @@ class CanvasData
             p = @getClosestAvailablePoint(x, y)
             x = p.x
             y = p.y
-        else
-            # 重なる場合
-            for other in @items
-                if item.shape isnt other.shape
-                    # 衝突判定
-                    if (item.isHit(other))
-                        item.restore()
-                        return
+
+        # 重なる場合
+        for other in @items
+            if item.shape isnt other.shape
+                # 衝突判定
+                if (@detectHit(x, y, item, other))
+                    log "item hit (#{other.x}, #{other.y})"
+                    item.restore()
+                    return
 
         item.update(x, y)
         item.clear()
         return
+
+    detectHit: (x1, y1, item1, item2) ->
+        if \
+        (x1 - item1.w < item2.x + item2.w) and
+        (x1 + item1.w > item2.x - item2.w) and
+        (y1 - item1.h < item2.y + item1.h) and
+        (y1 + item1.h > item2.y - item2.h)
+            return true
+        else
+            return false
 
     # 一番近い有効な (x, y) を計算
     getClosestAvailablePoint: (x, y) ->

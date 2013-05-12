@@ -6,21 +6,21 @@ class CanvasEventPainter
     init: () ->
         @state = {current: null}
 
-    onDown: (x, y) ->
+    onMouseDown: (x, y) ->
         unless @state.current?
             @state.current = new PaintTrace(x, y)
             @data.paintTraces.push @state.current
 
         return true
 
-    onUp: (x, y) ->
+    onMouseUp: (x, y) ->
         if @state.current?
             @state.current.addPoint(x, y)
             @state.current = null
 
         return true
 
-    onMove: (x, y) ->
+    onMouseMove: (x, y) ->
         if @state.current?
             @state.current.addPoint(x, y)
             return true

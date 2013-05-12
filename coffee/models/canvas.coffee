@@ -22,22 +22,22 @@ class Canvas
         # イベントをバインド
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onDown(x, y)
+            if @handlers[@handler].onMouseDown(x, y)
                 @draw()
             return false
         @$canvas.mouseup (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onUp(x, y)
+            if @handlers[@handler].onMouseUp(x, y)
                 @draw()
             return false
         @$canvas.mouseleave (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onUp(x, y)
+            if @handlers[@handler].onMouseUp(x, y)
                 @draw()
             return false
         @$canvas.mousemove (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onMove(x, y)
+            if @handlers[@handler].onMouseMove(x, y)
                 @draw()
             return false
 

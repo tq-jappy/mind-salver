@@ -6,7 +6,7 @@ class CanvasEventExplorer
     init: () ->
         @state = {drag: false, holder: null}
 
-    onDown: (x, y) ->
+    onMouseDown: (x, y) ->
         return false if @state.drag
 
         item = @data.getItemAt(x, y)
@@ -17,7 +17,7 @@ class CanvasEventExplorer
         return false
 
     # 指定した (x, y) にアイテムを置く
-    onUp: (x, y) ->
+    onMouseUp: (x, y) ->
         return false unless @state.drag
 
         target = @state.holder
@@ -31,7 +31,7 @@ class CanvasEventExplorer
         return true
 
     # ドラッグ中のアイテムを (x, y) に移動する
-    onMove: (x, y) ->
+    onMouseMove: (x, y) ->
         return false unless @state.drag
 
         target = @state.holder

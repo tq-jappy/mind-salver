@@ -1,5 +1,5 @@
 class Item
-    constructor: (@x, @y, @shape) ->
+    constructor: (@x, @y, @w, @h, @shape) ->
         @text = "ABC"
         @update(@x, @y)
 
@@ -21,12 +21,4 @@ class Item
         @saveY = null
 
     update: (@x, @y) ->
-        # 衝突判定用の矩形領域も更新
-        @cornerPoint = {cx1: @x-10, cy1: @y-10, cx2: @x+10, cy2: @y+10}
 
-    # 他のアイテムとの衝突判定
-    isHit: (other) ->
-        if (@cornerPoint.cx1 < other.cornerPoint.cx2 and other.cornerPoint.cx1 < @cornerPoint.cx2 and @cornerPoint.cy1 < other.cornerPoint.cy2 and other.cornerPoint.cy1 < @cornerPoint.cx2)
-            return true
-        else
-            return false
