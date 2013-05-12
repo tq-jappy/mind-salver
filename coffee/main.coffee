@@ -1,5 +1,5 @@
 $ ->
-    $canvas = $("#canvas")
+    $canvas = $("#canvas > .canvas")
     ctx = $canvas[0].getContext("2d")
     ctx.lineWidth = 1
     ctx.font = "10pt Arial"

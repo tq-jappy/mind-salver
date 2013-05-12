@@ -3,9 +3,9 @@ class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         log "create Canvas."
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
-        @view = new CanvasView(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
+        @view = new CanvasView(@ctx, @cell, @offsetX, @offsetY)
         @data = new CanvasData(@view, @cell, @width, @height)
         @grid = true
 
@@ -18,23 +18,23 @@ class Canvas
         @state = new NormalState(@, @data)
 
         # イベントをバインド
-        @$canvas.dblclick (e) =>
+        @$canvas.parent().dblclick (e) =>
             [x, y] = @getEventPoint(e)
             @state.onDblClick(x, y)
             return false
-        @$canvas.mousedown (e) =>
+        @$canvas.parent().mousedown (e) =>
             [x, y] = @getEventPoint(e)
             @state.onMouseDown(x, y)
             return false
-        @$canvas.mouseup (e) =>
+        @$canvas.parent().mouseup (e) =>
             [x, y] = @getEventPoint(e)
             @state.onMouseUp(x, y)
             return false
-        @$canvas.mouseleave (e) =>
+        @$canvas.parent().mouseleave (e) =>
             [x, y] = @getEventPoint(e)
             @state.onMouseUp(x, y)
             return false
-        @$canvas.mousemove (e) =>
+        @$canvas.parent().mousemove (e) =>
             [x, y] = @getEventPoint(e)
             @state.onMouseMove(x, y)
             return false

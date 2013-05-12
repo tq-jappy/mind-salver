@@ -9,5 +9,6 @@ class ModePanel
             grid = if gridVal is "true" then true else false
             if @canvas.grid isnt grid
                 @canvas.update({grid: grid})
+            @canvas.transit(new NormalState(@canvas, @data))
 
             return

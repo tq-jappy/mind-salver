@@ -1,5 +1,5 @@
 class CanvasView
-    constructor: (@ctx, @cell) ->
+    constructor: (@ctx, @cell, @offsetX, @offsetY) ->
         @pi2 = Math.PI * 2 # 計算用 2π
         @ux = @cell.halfWidth - 5 # 計算用
         @uy = @cell.halfHeight - 5 # 計算用
@@ -10,7 +10,7 @@ class CanvasView
         # log "draw"
         @clean(data.canvasWidth, data.canvasHeight, data.grid)
 
-        for item in data.items
+        for item, i in data.items
             switch item.shape
                 when "circle"
                     @drawCircle(item.x, item.y)
@@ -20,12 +20,16 @@ class CanvasView
                     @drawRectangle(item.x, item.y)
                 else
                     log "unknown shape #{item.shape}"
-            @drawText(item.id, item.x, item.y)
+            @drawText(item.element, item.x, item.y, i)
 
         @drawLines(data.lines)
 
-    drawText: (text, x, y) ->
-        @ctx.fillText(text, x, y)
+    drawText: (element, x, y, i) ->
+        # fillText だと拡大時にぼやけるので、DOM を移動して表示
+        element.style.visible = "show"
+        element.style.left = "#{@offsetX + x}px"
+        element.style.top = "#{@offsetY + y}px"
+        # @ctx.fillText(text, x, y)
         return
 
     drawLines: (lines) ->

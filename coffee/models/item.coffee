@@ -7,6 +7,18 @@ class Item
         @text = "ABC"
         @update(@x, @y)
 
+        # TODO:
+        div = document.createElement("span")
+        div.appendChild(document.createTextNode(@id))
+        div.className = "canvasText"
+        # div.style.fontSize = "48px"
+        div.style.fontFamily = "メイリオ,sans-serif"
+        div.style.fonwWeight = "normal"
+        div.style.visible = "hidden"
+        div.style.position = "absolute"
+        @element = div
+        $('#canvas').append(div)
+
     # 元に戻すために保持
     save: () ->
         @saveX = @x
@@ -25,4 +37,3 @@ class Item
         @saveY = null
 
     update: (@x, @y) ->
-
