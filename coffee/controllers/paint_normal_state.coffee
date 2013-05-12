@@ -1,5 +1,5 @@
 # ペイント初期状態
-class PaintNormalState extends AbstractController
+class PaintNormalState extends AbstractState
     constructor: (@canvas, @data) ->
 
     onMouseDown: (x, y) ->

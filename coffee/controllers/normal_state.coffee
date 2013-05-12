@@ -1,5 +1,5 @@
 # 通常状態
-class NormalState extends AbstractController
+class NormalState extends AbstractState
     constructor: (@canvas, @data) ->
 
     onMouseDown: (x, y) ->

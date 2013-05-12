@@ -16,3 +16,6 @@ $ ->
 
     panel = new ModePanel($("#modePanel"), canvas, canvas.data)
     panel.init()
+
+    panel2 = new TypeSelectPanel($("#modePanel"), canvas, canvas.data)
+    panel2.init()

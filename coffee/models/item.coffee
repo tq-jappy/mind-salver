@@ -1,5 +1,9 @@
 class Item
+    @id = 0
+
     constructor: (@x, @y, @w, @h, @shape) ->
+        Item.id += 1
+        @id = Item.id
         @text = "ABC"
         @update(@x, @y)
 

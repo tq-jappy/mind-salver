@@ -2,27 +2,22 @@
 class CanvasData
     constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
-        @currentPaintTrace = null
         @paintTraces = []
         log "data init."
 
     lineStart: (x, y) ->
-        # TODO: このクラス（モデル）側で状態管理してしまっているのがいけてない
-        @currentPaintTrace = new PaintTrace(x, y)
-        @paintTraces.push(@currentPaintTrace)
+        paintTrace = new PaintTrace(x, y)
+        @paintTraces.push(paintTrace)
+        @view.draw(@)
+        return paintTrace
+
+    lineEnd: (paintTrace, x, y) ->
+        paintTrace.addPoint(x, y)
         @view.draw(@)
         return
 
-    lineEnd: (x, y) ->
-        if @currentPaintTrace?
-            @currentPaintTrace.addPoint(x, y)
-            @currentPaintTrace = null
-        @view.draw(@)
-        return
-
-    lineKeep: (x, y) ->
-        if @currentPaintTrace?
-            @currentPaintTrace.addPoint(x, y)
+    lineKeep: (paintTrace, x, y) ->
+        paintTrace.addPoint(x, y)
         @view.draw(@)
         return
 
@@ -33,8 +28,10 @@ class CanvasData
 
     # アイテムを追加
     addItem: (item) ->
-        @putItem(item, item.x, item.y)
-        @items.push item
+        if @putItem(item, item.x, item.y)
+            @items.push item
+        else
+            warn "cannot add item: #{item.shape}#{item.id}"
         @view.draw(@)
         return
 
@@ -55,17 +52,19 @@ class CanvasData
         if (@detectHit(x, y, item))
             item.restore()
             @view.draw(@)
+            return false
         else if item.x isnt x or item.y isnt y
             item.update(x, y)
             @view.draw(@)
             item.clear()
 
-        return
+        return true
 
     # 重なる場合
     detectHit: (x, y, item) ->
         for other in @items
-            if item.shape isnt other.shape # 判定は自分以外のものと行う
+            console.log "#{item.id} >< #{other.id}"
+            if item.id isnt other.id
                 # 衝突判定
                 if (isHit(x, y, item.w, item.h, other.x, other.y, other.w, other.h))
                     log "item hit (#{other.x}, #{other.y})"

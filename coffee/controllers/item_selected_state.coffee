@@ -1,5 +1,5 @@
 # アイテム選択直後の状態
-class ItemSelectedState extends AbstractController
+class ItemSelectedState extends AbstractState
     constructor: (@canvas, @data, @item) ->
 
     onMouseUp: (x, y) ->

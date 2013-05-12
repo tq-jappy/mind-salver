@@ -11,24 +11,37 @@
     <![endif]-->
 </head>
 <body>
-    <div id="modePanel" class="controls">
-        <span>座標モード</span>
+    <!-- 本当は別々にわけてモデルを作るべき -->
+    <section id="modePanel" class="controls">
+        <h2>座標モード</h2>
         <label class="radio">
             <input type="radio" name="grid" value="true" checked> グリッド
         </label>
         <label class="radio">
             <input type="radio" name="grid" value="false"> フリー
         </label>
-        <br />
-        <span>編集モード</span>
+
+        <h2>編集モード</h2>
         <label class="radio">
             <input type="radio" name="mode" value="explorer" checked> アイテム
         </label>
         <label class="radio">
             <input type="radio" name="mode" value="painter"> ペイント
         </label>
-    </div>
+        <br />
+    </section>
 
-    <canvas id="canvas" width="800" height="300" class="canvas"></canvas>
+    <section id="add-item-select" class="panel">
+        <h2>アイテム追加</h2>
+        <ul>
+            <li class="item-legend" shape="circle">○</li>
+            <li class="item-legend" shape="triangle">△</li>
+            <li class="item-legend" shape="rectangle">□</li>
+        </ul>
+    </section>
+
+    <div>
+        <canvas id="canvas" width="800" height="300" class="canvas"></canvas>
+    </div>
 </body>
 </html>

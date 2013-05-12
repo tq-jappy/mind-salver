@@ -1,5 +1,5 @@
 # アイテム移動中の状態
-class ItemMovingState extends AbstractController
+class ItemMovingState extends AbstractState
     constructor: (@canvas, @data, @item) ->
 
     onMouseUp: (x, y) ->

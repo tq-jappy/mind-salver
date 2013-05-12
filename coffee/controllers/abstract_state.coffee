@@ -1,4 +1,5 @@
-class AbstractController
+# 状態（シーン）の基底クラス。サブクラス側で必要なイベント処理だけを実装すればよい。
+class AbstractState
     constructor: () ->
 
     onDblClick: (x, y) ->

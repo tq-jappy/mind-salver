@@ -7,12 +7,6 @@ class Canvas
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @data = new CanvasData(@view, @cell, @width, @height)
-        # @handlers = {
-        #     explorer: new CanvasEventExplorer(@, @data)
-        #     painter: new CanvasEventPainter(@, @data)
-        # }
-        @handler = "explorer"
-
         @grid = true
 
     transit: (@state) ->

@@ -18,6 +18,8 @@ class CanvasView
                     @drawTriangle(item.x, item.y)
                 when "rectangle"
                     @drawRectangle(item.x, item.y)
+                else
+                    log "unknown shape #{item.shape}"
             @drawText(item.text, item.x, item.y)
 
         @drawTraceLines(data.paintTraces)
