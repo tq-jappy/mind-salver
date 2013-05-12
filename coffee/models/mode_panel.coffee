@@ -10,11 +10,4 @@ class ModePanel
             if @canvas.grid isnt grid
                 @canvas.update({grid: grid})
 
-            mode = @obj.find('input[name="mode"]:checked').val()
-            switch mode
-                when "explorer"
-                    @canvas.transit(new NormalState(@canvas, @data))
-                when "painter"
-                    @canvas.transit(new PaintNormalState(@canvas, @data))
-
             return

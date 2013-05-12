@@ -1,6 +1,6 @@
 class Toolbox
     constructor: (@canvas, @data) ->
-        @shapes = ["circle", "triangle", "rectangle"]
+        @shapes = ["circle", "triangle", "rectangle", "freeline"]
         @selectedShape = null
         @toolboxView = new ToolboxView()
 
@@ -20,6 +20,12 @@ class Toolbox
             @switch("rectangle")
             @canvas.transit(new ItemAddState(@canvas, @data, "rectangle"))
             return
+
+        $('#add-item-select li[shape="freeline"]').on "click", =>
+            @switch("freeline")
+            @canvas.transit(new PaintNormalState(@canvas, @data))
+            return
+
 
     switch: (shape) ->
         @selectedShape = shape
