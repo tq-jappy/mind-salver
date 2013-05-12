@@ -1,5 +1,5 @@
 # 移動や表示領域変更時などのイベント処理
-class CanvasEventExplorer
+class CanvasEventExplorer extends AbstractController
     constructor: (@data) ->
         @init()
 

@@ -2,7 +2,7 @@ class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         log "create Canvas."
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15}
-        @drawer = new Drawer(@ctx, @cell)
+        @view = new CanvasView(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @data = new CanvasData(@cell, @width, @height)
@@ -20,6 +20,11 @@ class Canvas
         @data.init()
 
         # イベントをバインド
+        @$canvas.dblclick (e) =>
+            [x, y] = @getEventPoint(e)
+            if @handlers[@handler].onDblClick(x, y)
+                @draw()
+            return false
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
             if @handlers[@handler].onMouseDown(x, y)
@@ -61,16 +66,16 @@ class Canvas
     # 画面表示
     draw: () ->
         log "draw"
-        @drawer.clean(@width, @height, @grid)
+        @view.clean(@width, @height, @grid)
 
         for item in @data.items
             switch item.shape
                 when "circle"
-                    @drawer.drawCircle(item.x, item.y)
+                    @view.drawCircle(item.x, item.y)
                 when "triangle"
-                    @drawer.drawTriangle(item.x, item.y)
+                    @view.drawTriangle(item.x, item.y)
                 when "rectangle"
-                    @drawer.drawRectangle(item.x, item.y)
-            @drawer.drawText(item.text, item.x, item.y)
+                    @view.drawRectangle(item.x, item.y)
+            @view.drawText(item.text, item.x, item.y)
 
-        @drawer.drawTraceLines(@data.paintTraces)
+        @view.drawTraceLines(@data.paintTraces)

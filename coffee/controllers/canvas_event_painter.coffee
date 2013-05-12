@@ -1,5 +1,5 @@
 # ペイント時のイベント処理
-class CanvasEventPainter
+class CanvasEventPainter extends AbstractController
     constructor: (@data) ->
         @init()
 
