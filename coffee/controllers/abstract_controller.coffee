@@ -10,3 +10,6 @@ class AbstractController
     onMouseMove: (x, y) ->
 
     onMouseLeave: (x, y) ->
+
+    toString: () ->
+        @constructor.name

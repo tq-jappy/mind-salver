@@ -1,5 +1,5 @@
 class ModePanel
-    constructor: (@obj, @canvas) ->
+    constructor: (@obj, @canvas, @data) ->
 
     # 初期化処理
     init: () ->
@@ -11,7 +11,10 @@ class ModePanel
                 @canvas.update({grid: grid})
 
             mode = @obj.find('input[name="mode"]:checked').val()
-            if @canvas.handler isnt mode
-                @canvas.update({mode: mode})
+            switch mode
+                when "explorer"
+                    @canvas.transit(new NormalState(@canvas, @data))
+                when "painter"
+                    @canvas.transit(new PaintNormalState(@canvas, @data))
 
             return

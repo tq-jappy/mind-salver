@@ -7,38 +7,42 @@ class Canvas
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @data = new CanvasData(@view, @cell, @width, @height)
-        @handlers = {
-            explorer: new CanvasEventExplorer(@data) # 状態別コントローラ（ドロー）
-            painter: new CanvasEventPainter(@data) # 状態別コントローラ（ペイント）
-        }
+        # @handlers = {
+        #     explorer: new CanvasEventExplorer(@, @data)
+        #     painter: new CanvasEventPainter(@, @data)
+        # }
         @handler = "explorer"
 
         @grid = true
 
+    transit: (@state) ->
+        console.log "transit to #{@state}"
+
     # 初期処理
     init: () ->
         log "init canvas."
+        @state = new NormalState(@, @data)
 
         # イベントをバインド
         @$canvas.dblclick (e) =>
             [x, y] = @getEventPoint(e)
-            @handlers[@handler].onDblClick(x, y)
+            @state.onDblClick(x, y)
             return false
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
-            @handlers[@handler].onMouseDown(x, y)
+            @state.onMouseDown(x, y)
             return false
         @$canvas.mouseup (e) =>
             [x, y] = @getEventPoint(e)
-            @handlers[@handler].onMouseUp(x, y)
+            @state.onMouseUp(x, y)
             return false
         @$canvas.mouseleave (e) =>
             [x, y] = @getEventPoint(e)
-            @handlers[@handler].onMouseUp(x, y)
+            @state.onMouseUp(x, y)
             return false
         @$canvas.mousemove (e) =>
             [x, y] = @getEventPoint(e)
-            @handlers[@handler].onMouseMove(x, y)
+            @state.onMouseMove(x, y)
             return false
 
     # Canvas 自身のオプションを更新する
@@ -47,10 +51,6 @@ class Canvas
             @grid = options.grid
             @data.grid = options.grid
             @data.updateAll()
-
-        if options.mode?
-            @handler = options.mode
-            @handlers[@handler].init()
 
         @view.draw(@data)
 

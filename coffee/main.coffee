@@ -14,5 +14,5 @@ $ ->
     canvas.data.addItem(new Item(123, 77, 25, 15, "triangle"))
     canvas.data.addItem(new Item(77, 255, 25, 15, "rectangle"))
 
-    panel = new ModePanel($("#modePanel"), canvas)
+    panel = new ModePanel($("#modePanel"), canvas, canvas.data)
     panel.init()
