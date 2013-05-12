@@ -63,7 +63,6 @@ class CanvasData
     # 重なる場合
     detectHit: (x, y, item) ->
         for other in @items
-            console.log "#{item.id} >< #{other.id}"
             if item.id isnt other.id
                 # 衝突判定
                 if (isHit(x, y, item.w, item.h, other.x, other.y, other.w, other.h))

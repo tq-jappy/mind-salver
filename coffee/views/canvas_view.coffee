@@ -7,7 +7,7 @@ class CanvasView
 
     # 画面表示
     draw: (data) ->
-        log "draw"
+        # log "draw"
         @clean(data.canvasWidth, data.canvasHeight, data.grid)
 
         for item in data.items
@@ -20,7 +20,7 @@ class CanvasView
                     @drawRectangle(item.x, item.y)
                 else
                     log "unknown shape #{item.shape}"
-            @drawText(item.text, item.x, item.y)
+            @drawText(item.id, item.x, item.y)
 
         @drawTraceLines(data.paintTraces)
 
