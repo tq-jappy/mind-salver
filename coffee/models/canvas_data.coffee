@@ -2,22 +2,27 @@
 class CanvasData
     constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
-        @paintTraces = []
+        @lines = []
         log "data init."
 
     lineStart: (x, y) ->
-        paintTrace = new PaintTrace(x, y)
-        @paintTraces.push(paintTrace)
+        line = new Line(x, y)
+        @lines.push(line)
         @view.draw(@)
-        return paintTrace
+        return line
 
-    lineEnd: (paintTrace, x, y) ->
-        paintTrace.addPoint(x, y)
+    lineEnd: (line, x, y) ->
+        line.addPoint(x, y)
         @view.draw(@)
         return
 
-    lineKeep: (paintTrace, x, y) ->
-        paintTrace.addPoint(x, y)
+    lineExpand: (line, x, y) ->
+        line.updateLastPoint(x, y)
+        @view.draw(@)
+        return
+
+    lineKeep: (line, x, y) ->
+        line.addPoint(x, y)
         @view.draw(@)
         return
 

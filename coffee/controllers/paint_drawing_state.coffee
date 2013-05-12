@@ -1,4 +1,4 @@
-# ペイント描画状態
+# 曲線描画状態
 class PaintDrawingState extends AbstractState
     constructor: (@canvas, @data, @line) ->
 

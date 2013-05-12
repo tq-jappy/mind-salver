@@ -1,4 +1,4 @@
-# ペイント初期状態
+# 曲線始点選択状態
 class PaintNormalState extends AbstractState
     constructor: (@canvas, @data) ->
 
