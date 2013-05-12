@@ -51,18 +51,11 @@ class CanvasData
             x = p.x
             y = p.y
 
-        # 重なる場合
-        for other in @items
-            if item.shape isnt other.shape # 判定は自分以外のものと行う
-                # 衝突判定
-                if (@detectHit(x, y, item, other))
-                    log "item hit (#{other.x}, #{other.y}). restore to -> (#{item.saveX} : #{item.saveY})"
-                    item.restore()
-                    @view.draw(@)
-                    log "(#{item.x} : #{item.y})"
-                    return
-
-        if item.x isnt x or item.y isnt y
+        # 衝突判定
+        if (@detectHit(x, y, item))
+            item.restore()
+            @view.draw(@)
+        else if item.x isnt x or item.y isnt y
             item.update(x, y)
             @view.draw(@)
             item.clear()
@@ -70,24 +63,14 @@ class CanvasData
         return
 
     # 重なる場合
-    isHit: (x, y, item) ->
+    detectHit: (x, y, item) ->
         for other in @items
             if item.shape isnt other.shape # 判定は自分以外のものと行う
                 # 衝突判定
-                if (@detectHit(x, y, item, other))
+                if (isHit(x, y, item.w, item.h, other.x, other.y, other.w, other.h))
                     log "item hit (#{other.x}, #{other.y})"
                     return true
         return false
-
-    detectHit: (x1, y1, item1, item2) ->
-        if \
-        (x1 - item1.w < item2.x + item2.w) and
-        (x1 + item1.w > item2.x - item2.w) and
-        (y1 - item1.h < item2.y + item1.h) and
-        (y1 + item1.h > item2.y - item2.h)
-            return true
-        else
-            return false
 
     # 一番近い有効な (x, y) を計算
     getClosestAvailablePoint: (x, y) ->
