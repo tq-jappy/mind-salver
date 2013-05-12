@@ -1,28 +1,51 @@
 # Canvas 内のデータを管理するクラス
 class CanvasData
-    constructor: (@cell, @canvasWidth, @canvasHeight, @grid=true) ->
+    constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
+        @currentPaintTrace = null
         @paintTraces = []
         log "data init."
 
-    init: () ->
-        @items.length = 0
-        @paintTraces.length = 0
+    lineStart: (x, y) ->
+        # TODO: このクラス（モデル）側で状態管理してしまっているのがいけてない
+        @currentPaintTrace = new PaintTrace(x, y)
+        @paintTraces.push(@currentPaintTrace)
+        @view.draw(@)
+        return
+
+    lineEnd: (x, y) ->
+        if @currentPaintTrace?
+            @currentPaintTrace.addPoint(x, y)
+            @currentPaintTrace = null
+        @view.draw(@)
+        return
+
+    lineKeep: (x, y) ->
+        if @currentPaintTrace?
+            @currentPaintTrace.addPoint(x, y)
+        @view.draw(@)
         return
 
     # 全てのアイテムを更新
     updateAll: () ->
         for item in @items
-            @updateItem(item, item.x, item.y)
+            @putItem(item, item.x, item.y)
 
     # アイテムを追加
     addItem: (item) ->
-        @updateItem(item, item.x, item.y)
+        @putItem(item, item.x, item.y)
         @items.push item
+        @view.draw(@)
         return
 
     # x, y 座標を調整しつつアイテムを更新
-    updateItem: (item, x, y) ->
+    moveItem: (item, x, y) ->
+        @view.draw(@) if item.x isnt x or item.y isnt y
+        item.update(x, y)
+        return
+
+    # x, y 座標を調整しつつアイテムを更新
+    putItem: (item, x, y) ->
         if @grid
             p = @getClosestAvailablePoint(x, y)
             x = p.x
@@ -30,16 +53,31 @@ class CanvasData
 
         # 重なる場合
         for other in @items
-            if item.shape isnt other.shape
+            if item.shape isnt other.shape # 判定は自分以外のものと行う
+                # 衝突判定
+                if (@detectHit(x, y, item, other))
+                    log "item hit (#{other.x}, #{other.y}). restore to -> (#{item.saveX} : #{item.saveY})"
+                    item.restore()
+                    @view.draw(@)
+                    log "(#{item.x} : #{item.y})"
+                    return
+
+        if item.x isnt x or item.y isnt y
+            item.update(x, y)
+            @view.draw(@)
+            item.clear()
+
+        return
+
+    # 重なる場合
+    isHit: (x, y, item) ->
+        for other in @items
+            if item.shape isnt other.shape # 判定は自分以外のものと行う
                 # 衝突判定
                 if (@detectHit(x, y, item, other))
                     log "item hit (#{other.x}, #{other.y})"
-                    item.restore()
-                    return
-
-        item.update(x, y)
-        item.clear()
-        return
+                    return true
+        return false
 
     detectHit: (x1, y1, item1, item2) ->
         if \

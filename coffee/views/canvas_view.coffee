@@ -5,6 +5,23 @@ class CanvasView
         @uy = @cell.halfHeight - 5 # 計算用
         @triangleHeightHalf = @uy * Math.tan(Math.PI / 3) / 2 # 計算用
 
+    # 画面表示
+    draw: (data) ->
+        log "draw"
+        @clean(data.canvasWidth, data.canvasHeight, data.grid)
+
+        for item in data.items
+            switch item.shape
+                when "circle"
+                    @drawCircle(item.x, item.y)
+                when "triangle"
+                    @drawTriangle(item.x, item.y)
+                when "rectangle"
+                    @drawRectangle(item.x, item.y)
+            @drawText(item.text, item.x, item.y)
+
+        @drawTraceLines(data.paintTraces)
+
     drawText: (text, x, y) ->
         @ctx.fillText(text, x, y)
         return

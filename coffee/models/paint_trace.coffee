@@ -1,6 +1,6 @@
 # ペイント時の軌道
 class PaintTrace
-    constructor: (x, y) ->
+    constructor: (@view, x, y) ->
         @points = []
         @addPoint(x, y)
 

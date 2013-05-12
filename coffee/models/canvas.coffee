@@ -1,3 +1,4 @@
+# Canvas のメインコントローラ
 class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         log "create Canvas."
@@ -5,10 +6,10 @@ class Canvas
         @view = new CanvasView(@ctx, @cell)
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
-        @data = new CanvasData(@cell, @width, @height)
+        @data = new CanvasData(@view, @cell, @width, @height)
         @handlers = {
-            explorer: new CanvasEventExplorer(@data)
-            painter: new CanvasEventPainter(@data)
+            explorer: new CanvasEventExplorer(@data) # 状態別コントローラ（ドロー）
+            painter: new CanvasEventPainter(@data) # 状態別コントローラ（ペイント）
         }
         @handler = "explorer"
 
@@ -17,33 +18,27 @@ class Canvas
     # 初期処理
     init: () ->
         log "init canvas."
-        @data.init()
 
         # イベントをバインド
         @$canvas.dblclick (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onDblClick(x, y)
-                @draw()
+            @handlers[@handler].onDblClick(x, y)
             return false
         @$canvas.mousedown (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onMouseDown(x, y)
-                @draw()
+            @handlers[@handler].onMouseDown(x, y)
             return false
         @$canvas.mouseup (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onMouseUp(x, y)
-                @draw()
+            @handlers[@handler].onMouseUp(x, y)
             return false
         @$canvas.mouseleave (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onMouseUp(x, y)
-                @draw()
+            @handlers[@handler].onMouseUp(x, y)
             return false
         @$canvas.mousemove (e) =>
             [x, y] = @getEventPoint(e)
-            if @handlers[@handler].onMouseMove(x, y)
-                @draw()
+            @handlers[@handler].onMouseMove(x, y)
             return false
 
     # Canvas 自身のオプションを更新する
@@ -57,25 +52,11 @@ class Canvas
             @handler = options.mode
             @handlers[@handler].init()
 
+        @view.draw(@data)
+
     # イベントが起こった座標をキャンバスの左上を (0,0) として取得
     getEventPoint: (e) ->
         cx = e.pageX - @offsetX
         cy = e.pageY - @offsetY
         return [cx, cy]
 
-    # 画面表示
-    draw: () ->
-        log "draw"
-        @view.clean(@width, @height, @grid)
-
-        for item in @data.items
-            switch item.shape
-                when "circle"
-                    @view.drawCircle(item.x, item.y)
-                when "triangle"
-                    @view.drawTriangle(item.x, item.y)
-                when "rectangle"
-                    @view.drawRectangle(item.x, item.y)
-            @view.drawText(item.text, item.x, item.y)
-
-        @view.drawTraceLines(@data.paintTraces)
