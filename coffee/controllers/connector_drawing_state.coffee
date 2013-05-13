@@ -16,7 +16,6 @@ class ConnectorDrawingState extends AbstractState
             log "#{a} -> #{b}"
         @canvas.transit(new ConnectorNormalState(@canvas, @data))
 
-
     onMouseMove: (x, y) ->
         @data.lineExpand(@line, x, y)
 

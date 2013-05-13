@@ -33,7 +33,7 @@ class Toolbox
 
         $('#add-item-select li[shape="freeline"]').on "click", =>
             @switch("freeline")
-            @canvas.transit(new PaintNormalState(@canvas, @data))
+            @canvas.transit(new FreeLineNormalState(@canvas, @data))
             return
 
 
