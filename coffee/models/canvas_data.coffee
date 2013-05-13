@@ -5,6 +5,14 @@ class CanvasData
         @lines = []
         log "data init."
 
+    focus: (item) ->
+        item.focused = true
+        @view.draw(@)
+
+    unfocus: (item) ->
+        item.focused = false
+        @view.draw(@)
+
     lineStart: (x, y) ->
         line = new Line(x, y)
         @lines.push(line)
@@ -23,6 +31,12 @@ class CanvasData
 
     lineKeep: (line, x, y) ->
         line.addPoint(x, y)
+        @view.draw(@)
+        return
+
+    lineClear: (line) ->
+        line.points = []
+        @lines = line for line in @lines when line.points.length > 0
         @view.draw(@)
         return
 

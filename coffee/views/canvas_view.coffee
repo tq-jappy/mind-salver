@@ -13,11 +13,11 @@ class CanvasView
         for item, i in data.items
             switch item.shape
                 when "circle"
-                    @drawCircle(item.x, item.y)
+                    @drawCircle(item.x, item.y, item.focused)
                 when "triangle"
-                    @drawTriangle(item.x, item.y)
+                    @drawTriangle(item.x, item.y, item.focused)
                 when "rectangle"
-                    @drawRectangle(item.x, item.y)
+                    @drawRectangle(item.x, item.y, item.focused)
                 else
                     log "unknown shape #{item.shape}"
             @drawText(item.element, item.x, item.y, i)
@@ -65,18 +65,18 @@ class CanvasView
         @ctx.restore()
         return
 
-    drawCircle: (x, y) ->
+    drawCircle: (x, y, focused=false) ->
         @ctx.save()
-        @ctx.fillStyle = 'green'
+        @ctx.fillStyle = if focused then 'red' else 'green'
         @ctx.beginPath()
         @ctx.arc(x, y, @uy, 0, @pi2, false)
         @ctx.fill()
         @ctx.restore()
         return
 
-    drawRectangle: (x, y) ->
+    drawRectangle: (x, y, focused=false) ->
         @ctx.save()
-        @ctx.fillStyle = 'purple'
+        @ctx.fillStyle = if focused then 'red' else 'purple'
         @ctx.beginPath()
         @ctx.moveTo(x - @ux, y - @uy)
         @ctx.lineTo(x - @ux, y + @uy)
@@ -87,9 +87,9 @@ class CanvasView
         @ctx.restore()
         return
 
-    drawTriangle: (x, y) ->
+    drawTriangle: (x, y, focused=false) ->
         @ctx.save()
-        @ctx.fillStyle = 'blue'
+        @ctx.fillStyle  = if focused then 'red' else 'blue'
         @ctx.beginPath()
         @ctx.moveTo(x, y - @triangleHeightHalf)
         @ctx.lineTo(x - @ux, y + @triangleHeightHalf)

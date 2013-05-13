@@ -4,6 +4,7 @@ class Item
     constructor: (@x, @y, @w, @h, @shape) ->
         Item.id += 1
         @id = Item.id
+        @focused = false
         @text = "ABC"
         @update(@x, @y)
 
