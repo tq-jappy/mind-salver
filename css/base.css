@@ -6,9 +6,13 @@ body {
     padding: 0;
 }
 
-section {
-    display: block;
+.menu {
+    display: inline-block;
     margin: 1em;
+    padding: 0.2em;
+    vertical-align: top;
+    background-color: #f0f0f0;
+    border: 1px solid #d0d0f0;
 }
 
 div {
@@ -20,11 +24,11 @@ h1, h2, h3, h4, h5 {
     font-weight: normal;
 }
 
-.panel ul {
+.itemtype {
     margin: 0;
     padding: 5px;
 }
-.panel li {
+.itemtype li {
     list-style-type: none;
     display: inline-block;
     margin: 0;
@@ -35,10 +39,10 @@ h1, h2, h3, h4, h5 {
     text-align: center;
     border: 2px solid #aaa;
 }
-.panel li:hover {
+.itemtype li:hover {
     cursor: pointer;
 }
-.panel li.selected {
+.itemtype li.selected {
     background-color: #ff6;
 }
 

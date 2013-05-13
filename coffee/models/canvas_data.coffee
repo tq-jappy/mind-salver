@@ -15,6 +15,8 @@ class CanvasData
 
     lineStart: (x, y) ->
         line = new Line(x, y)
+        log "-------"
+        log @lines
         @lines.push(line)
         @view.draw(@)
         return line
@@ -36,7 +38,11 @@ class CanvasData
 
     lineClear: (line) ->
         line.points = []
-        @lines = line for line in @lines when line.points.length > 0
+
+        newLines = []
+        for line in @lines
+            newLines.push(line) if line.points.length > 0
+        @lines = newLines
         @view.draw(@)
         return
 

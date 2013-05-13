@@ -1,7 +1,7 @@
 # 直線描画状態
 class ConnectorDrawingState extends AbstractState
     constructor: (@canvas, @data, @line) ->
-        @target = null
+        @beginItem = null
 
     onMouseUp: (x, y) ->
         item = @data.getItemAt(x, y)
@@ -9,11 +9,7 @@ class ConnectorDrawingState extends AbstractState
         if item?
             @data.lineExpand(@line, x, y)
         else
-            log "clear"
-            a = @data.lines.length
             @data.lineClear(@line)
-            b = @data.lines.length
-            log "#{a} -> #{b}"
         @canvas.transit(new ConnectorNormalState(@canvas, @data))
 
     onMouseMove: (x, y) ->

@@ -12,7 +12,7 @@
 </head>
 <body>
     <!-- 本当は別々にわけてモデルを作るべき -->
-    <section id="modePanel" class="controls">
+    <section id="modePanel" class="menu">
         <h2>座標モード</h2>
         <label class="radio">
             <input type="radio" name="grid" value="true" checked> グリッド
@@ -22,13 +22,13 @@
         </label>
     </section>
 
-    <section id="add-item-select" class="panel">
+    <section id="add-item-select" class="menu">
         <h2>アイテム追加</h2>
-        <ul>
+        <ul class="itemtype">
             <li class="item-legend" shape="circle">○</li>
             <li class="item-legend" shape="triangle">△</li>
             <li class="item-legend" shape="rectangle">□</li>
-            <li class="item-legend" shape="connector">C</li>
+            <li class="item-legend" shape="connector">con</li>
             <li class="item-legend" shape="straightline">─</li>
             <li class="item-legend" shape="freeline">～</li>
         </ul>
