@@ -36,7 +36,6 @@ class Toolbox
             @canvas.transit(new FreeLineNormalState(@canvas, @data))
             return
 
-
     switch: (shape) ->
         @selectedShape = shape
         @toolboxView.update(@)

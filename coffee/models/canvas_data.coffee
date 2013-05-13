@@ -46,6 +46,7 @@ class CanvasData
         @view.draw(@)
         return
 
+
     # 全てのアイテムを更新
     updateAll: () ->
         for item in @items

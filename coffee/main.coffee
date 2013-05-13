@@ -19,3 +19,7 @@ $ ->
 
     panel2 = new Toolbox(canvas, canvas.data) # TypeSelectPanel($("#modePanel"), canvas, canvas.data)
     panel2.init()
+
+    propertyView = new ItemPropertyView($("#item-property"))
+    propertyView.update(new Item(77, 255, 25, 15, "rectangle"))
+
