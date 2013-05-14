@@ -5,6 +5,7 @@
     <title>MindSalver</title>
     <link rel="stylesheet" href="./css/base.css" />
     <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/knockout-2.2.1.js"></script>
     <script src="./js/mind-salver.js"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -24,13 +25,8 @@
 
     <section id="add-item-select" class="menu">
         <h2>アイテム追加</h2>
-        <ul class="itemtype">
-            <li class="item-legend" shape="circle">○</li>
-            <li class="item-legend" shape="triangle">△</li>
-            <li class="item-legend" shape="rectangle">□</li>
-            <li class="item-legend" shape="connector">con</li>
-            <li class="item-legend" shape="straightline">─</li>
-            <li class="item-legend" shape="freeline">～</li>
+        <ul class="itemtype" data-bind="foreach: shapes">
+            <li class="itemtype" data-bind="css: {selected: $root.selected(shape)}, text:value, click:$root.switchItem"></li>
         </ul>
     </section>
 
