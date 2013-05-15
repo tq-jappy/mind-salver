@@ -8,6 +8,7 @@ class Canvas
         @view = new CanvasView(@ctx, @cell, @offsetX, @offsetY)
         @data = new CanvasData(@view, @cell, @width, @height)
         @grid = true
+        @itemPropertyViewModel = null
 
     transit: (@state) ->
         console.log "transit to #{@state}"

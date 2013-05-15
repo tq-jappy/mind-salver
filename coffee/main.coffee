@@ -10,6 +10,7 @@ $ ->
 
     canvas = new Canvas($canvas, ctx, $canvas[0].width, $canvas[0].height)
     canvas.init()
+    item1 = new Item(50, 50, 1, 1, "circle")
     canvas.data.addItem(new Item(50, 50, 1, 1, "circle"))
     canvas.data.addItem(new Item(123, 77, 1, 1, "triangle"))
     canvas.data.addItem(new Item(77, 255, 1, 1, "rectangle"))
@@ -17,8 +18,12 @@ $ ->
     panel = new ModePanel($("#modePanel"), canvas, canvas.data)
     panel.init()
 
-    propertyView = new ItemPropertyView($("#item-property"))
-    propertyView.update(new Item(77, 255, 1, 1, "rectangle"))
+    # propertyView = new ItemPropertyView($("#item-property"))
+    # propertyView.update(new Item(77, 255, 1, 1, "rectangle"))
+
+    itemPropertyViewModel = new ItemPropertyViewModel()
+    ko.applyBindings(itemPropertyViewModel, $("#item-property")[0])
+    canvas.itemPropertyViewModel = itemPropertyViewModel
 
     toolbox = new Toolbox(canvas, canvas.data) # TypeSelectPanel($("#modePanel"), canvas, canvas.data)
     ko.applyBindings(new ToolboxViewModel(toolbox), $("#add-item-select")[0])

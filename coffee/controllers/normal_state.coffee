@@ -4,9 +4,13 @@ class NormalState extends AbstractState
 
     onMouseDown: (x, y) ->
         item = @data.getItemAt(x, y)
-        return unless item?
 
-        item.save()
-        @canvas.transit(new ItemSelectedState(@canvas, @data, item))
+        if item?
+            @canvas.itemPropertyViewModel.update(item)
+            item.save()
+            @canvas.transit(new ItemSelectedState(@canvas, @data, item))
+        else
+            @canvas.itemPropertyViewModel.reset()
+
         return
 

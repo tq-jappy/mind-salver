@@ -1,11 +1,21 @@
 class ItemPropertyViewModel
-    constructor: (@item) ->
-        @selectedItem = ko.observable("")
-        @shapes = ko.observableArray(@toolbox.shapes)
+    constructor: () ->
+        @id = ko.observable("")
+        @shape = ko.observable("")
+        @x = ko.observable("")
+        @y = ko.observable("")
+        @showProperty = ko.observable(false)
 
-    selected: (shape) =>
-        return @selectedItem() is shape
+    update: (item) ->
+        @id(item.id)
+        @shape(item.shape)
+        @x(item.x)
+        @y(item.y)
+        @showProperty(true)
 
-    switchItem: (obj, e) =>
-        @selectedItem(obj.shape)
-        @toolbox.update(obj.shape)
+    reset: (item) ->
+        @id("")
+        @shape("")
+        @x("")
+        @y("")
+        @showProperty(false)
