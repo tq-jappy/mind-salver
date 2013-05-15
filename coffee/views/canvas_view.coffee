@@ -20,16 +20,16 @@ class CanvasView
                     @drawRectangle(item.x, item.y, item.focused)
                 else
                     log "unknown shape #{item.shape}"
-            @drawText(item.element, item.x, item.y, i)
+            @drawText(item.text, item.element, item.x, item.y, i)
 
         @drawLines(data.lines)
 
-    drawText: (element, x, y, i) ->
+    drawText: (text, element, x, y, i) ->
         # fillText だと拡大時にぼやけるので、DOM を移動して表示
-        element.style.visible = "show"
-        element.style.left = "#{@offsetX + x}px"
-        element.style.top = "#{@offsetY + y}px"
-        # @ctx.fillText(text, x, y)
+        # element.style.visible = "show"
+        # element.style.left = "#{@offsetX + x}px"
+        # element.style.top = "#{@offsetY + y}px"
+        @ctx.fillText(text, x, y)
         return
 
     drawLines: (lines) ->

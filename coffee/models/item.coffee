@@ -1,7 +1,7 @@
 class Item
     @id = 0
 
-    constructor: (@x, @y, @w, @h, @shape) ->
+    constructor: (@x, @y, @sizeX, @sizeY, @shape) ->
         Item.id += 1
         @id = Item.id
         @focused = false
@@ -17,6 +17,7 @@ class Item
         div.style.fonwWeight = "normal"
         div.style.visible = "hidden"
         div.style.position = "absolute"
+        div.style.display = "none"
         @element = div
         $('#canvas').append(div)
 

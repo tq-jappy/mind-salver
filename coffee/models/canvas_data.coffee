@@ -48,7 +48,15 @@ class CanvasData
 
 
     # 全てのアイテムを更新
-    updateAll: () ->
+    updateOptions: (grid) ->
+        @grid = grid
+        if @grid?
+            @cell.paddingX = 5
+            @cell.paddingY = 5
+        else
+            @cell.paddingX = 0
+            @cell.paddingY = 0
+
         for item in @items
             @putItem(item, item.x, item.y)
 
@@ -91,7 +99,12 @@ class CanvasData
         for other in @items
             if item.id isnt other.id
                 # 衝突判定
-                if (isHit(x, y, item.w, item.h, other.x, other.y, other.w, other.h))
+                # TODO: item.sizeX, item.sizeY を考慮
+                # item が sizeHalfWidth みたいなプロパティをもつようにする
+                # w1 = (item.sizeX * @cell.width - (@cell.paddingX * 2)) / 2
+                w1 = @cell.halfWidth - @cell.paddingX
+                h1 = @cell.halfHeight - @cell.paddingY
+                if (isHit(x, y, w1, h1, other.x, other.y, w1, h1))
                     log "item hit (#{other.x}, #{other.y})"
                     return true
         return false
