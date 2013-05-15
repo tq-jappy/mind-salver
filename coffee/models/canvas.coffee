@@ -9,36 +9,12 @@ class Canvas
         @data = new CanvasData(@view, @cell, @width, @height)
         @grid = true
         @itemPropertyViewModel = null
+        @state = new NormalState(@, @data) # 初期状態
+        @stateName = ko.observable("")
 
     transit: (@state) ->
         console.log "transit to #{@state}"
-
-    # 初期処理
-    init: () ->
-        log "init canvas."
-        @state = new NormalState(@, @data)
-
-        # イベントをバインド
-        @$canvas.parent().dblclick (e) =>
-            [x, y] = @getEventPoint(e)
-            @state.onDblClick(x, y)
-            return false
-        @$canvas.parent().mousedown (e) =>
-            [x, y] = @getEventPoint(e)
-            @state.onMouseDown(x, y)
-            return false
-        @$canvas.parent().mouseup (e) =>
-            [x, y] = @getEventPoint(e)
-            @state.onMouseUp(x, y)
-            return false
-        @$canvas.parent().mouseleave (e) =>
-            [x, y] = @getEventPoint(e)
-            @state.onMouseUp(x, y)
-            return false
-        @$canvas.parent().mousemove (e) =>
-            [x, y] = @getEventPoint(e)
-            @state.onMouseMove(x, y)
-            return false
+        @stateName(@state.constructor.name)
 
     # Canvas 自身のオプションを更新する
     update: (options={}) ->
@@ -47,10 +23,3 @@ class Canvas
             @data.updateOptions(options.grid)
 
         @view.draw(@data)
-
-    # イベントが起こった座標をキャンバスの左上を (0,0) として取得
-    getEventPoint: (e) ->
-        cx = e.pageX - @offsetX
-        cy = e.pageY - @offsetY
-        return [cx, cy]
-

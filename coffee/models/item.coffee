@@ -1,9 +1,9 @@
 class Item
-    @id = 0
+    @sequence = 0
 
     constructor: (@x, @y, @sizeX, @sizeY, @shape) ->
-        Item.id += 1
-        @id = Item.id
+        Item.sequence += 1
+        @id = Item.sequence
         @focused = false
         @text = "ABC"
         @update(@x, @y)

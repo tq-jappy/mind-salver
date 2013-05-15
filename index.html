@@ -39,8 +39,14 @@
             </div>
     </section>
 
-    <div id="canvas">
-        <canvas width="800" height="300" class="canvas"></canvas>
+    <div id="canvas" class="app" data-bind="event: {dblclick: onDblClick, mousedown: onMouseDown, mouseup: onMouseUp, mouseleave: onMouseLeave, mousemove: onMouseMove}">
+        <canvas width="800" height="300" class="canvas">
+        </canvas>
+
+        <div id="debug">
+            (<span data-bind="text:x"></span>, <span data-bind="text:y"></span>)<br />
+            <span data-bind="text:canvas.stateName"></span>
+        </div>
     </div>
 </body>
 </html>

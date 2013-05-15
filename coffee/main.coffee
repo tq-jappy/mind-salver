@@ -9,8 +9,6 @@ $ ->
     ctx.globalCompositeOperation = "source-over"
 
     canvas = new Canvas($canvas, ctx, $canvas[0].width, $canvas[0].height)
-    canvas.init()
-    item1 = new Item(50, 50, 1, 1, "circle")
     canvas.data.addItem(new Item(50, 50, 1, 1, "circle"))
     canvas.data.addItem(new Item(123, 77, 1, 1, "triangle"))
     canvas.data.addItem(new Item(77, 255, 1, 1, "rectangle"))
@@ -18,8 +16,9 @@ $ ->
     panel = new ModePanel($("#modePanel"), canvas, canvas.data)
     panel.init()
 
-    # propertyView = new ItemPropertyView($("#item-property"))
-    # propertyView.update(new Item(77, 255, 1, 1, "rectangle"))
+    # bindings
+    canvasViewModel = new CanvasViewModel(canvas)
+    ko.applyBindings(canvasViewModel, $("#canvas")[0])
 
     itemPropertyViewModel = new ItemPropertyViewModel()
     ko.applyBindings(itemPropertyViewModel, $("#item-property")[0])
