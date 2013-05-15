@@ -4,7 +4,7 @@ exec = require('child_process').exec
 util = require 'util'
 
 COMMAND = 'coffee'
-SRCDIRS = ['./coffee', './coffee/models', './coffee/views', './coffee/viewmodels', './coffee/controllers', './coffee/lib']
+SRCDIRS = ['./coffee', './coffee/models', './coffee/views', './coffee/viewmodels', './coffee/states', './coffee/lib']
 OUTDIR = './js'
 TARGET_FILENAME = 'mind-salver.js'
 OPTIONS = "-wcb -j #{TARGET_FILENAME} -o #{OUTDIR}"
