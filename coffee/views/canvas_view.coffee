@@ -22,7 +22,7 @@ class CanvasView
                     log "unknown shape #{item.shape}"
             @drawText(item.text, item.element, item.x - data.offsetX, item.y - data.offsetY, i)
 
-        @drawLines(data.lines)
+        @drawLines(data.lines, data.offsetX, data.offsetY)
 
     drawText: (text, element, x, y, i) ->
         # fillText だと拡大時にぼやけるので、DOM を移動して表示
@@ -32,7 +32,7 @@ class CanvasView
         @ctx.fillText(text, x, y)
         return
 
-    drawLines: (lines) ->
+    drawLines: (lines, offsetX=0, offsetY=0) ->
         @ctx.save()
         @ctx.lineWidth = 2
         @ctx.fillStyle = 'green'
@@ -42,15 +42,15 @@ class CanvasView
             points = line.points
             if points.length is 1
                 @ctx.beginPath()
-                @ctx.arc(points[0].x, points[0].y, 2, 0, @pi2, false)
+                @ctx.arc(points[0].x - offsetX, points[0].y - offsetY, 2, 0, @pi2, false)
                 @ctx.fill()
             else if points.length > 1
                 @ctx.beginPath()
                 for p, i in points
                     if i is 0
-                        @ctx.moveTo(p.x, p.y)
+                        @ctx.moveTo(p.x - offsetX, p.y - offsetY)
                     if i > 0
-                        @ctx.lineTo(p.x, p.y)
+                        @ctx.lineTo(p.x - offsetX, p.y - offsetY)
                 @ctx.stroke()
 
         @ctx.restore()
@@ -115,16 +115,18 @@ class CanvasView
         @ctx.globalAlpha = 0.5
         @ctx.strokeStyle = "#000033"
         @ctx.lineWidth = 1
-        verticalLineNum = width / @cell.width
-        horizontalLineNum = height / @cell.height
-        for h in [0..verticalLineNum] # 縦線を引いていく
+        verticalLineNum = (width / @cell.width) + 3
+        horizontalLineNum = (height / @cell.height) + 3
+        offsetX = offsetX % @cell.width
+        offsetY = offsetY % @cell.height
+        for h in [-3..verticalLineNum] # 縦線を引いていく
             @ctx.beginPath()
             x = h * @cell.width - offsetX
             y = -offsetY
             @ctx.moveTo(x, y)
             @ctx.lineTo(x, y + height)
             @ctx.stroke()
-        for v in [0..horizontalLineNum] # 横線を引いていく
+        for v in [-3..horizontalLineNum] # 横線を引いていく
             @ctx.beginPath()
             x = -offsetX
             y = v * @cell.height - offsetY

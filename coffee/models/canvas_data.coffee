@@ -11,10 +11,10 @@ class CanvasData
         item.focused = true
         @view.draw(@)
 
-    moveArea: (x, y) ->
-        log "moveArea (x, y) = (#{x}, #{y})"
-        @offsetX = x
-        @offsetY = y
+    moveArea: (dx, dy) ->
+        log "moveArea (x, y) = (#{dx}, #{dy})"
+        @offsetX += dx
+        @offsetY += dy
         @view.draw(@)
 
     unfocus: (item) ->
