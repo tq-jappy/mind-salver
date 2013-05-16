@@ -11,6 +11,6 @@ class NormalState extends AbstractState
             @canvas.transit(new ItemSelectedState(@canvas, @data, item))
         else
             @canvas.itemPropertyViewModel.reset()
-
+            @canvas.transit(new AreaMovingState(@canvas, @data, x, y))
         return
 

@@ -3,10 +3,18 @@ class CanvasData
     constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
         @lines = []
+        @offsetX = 0
+        @offsetY = 0
         log "data init."
 
     focus: (item) ->
         item.focused = true
+        @view.draw(@)
+
+    moveArea: (x, y) ->
+        log "moveArea (x, y) = (#{x}, #{y})"
+        @offsetX = x
+        @offsetY = y
         @view.draw(@)
 
     unfocus: (item) ->
@@ -15,7 +23,6 @@ class CanvasData
 
     lineStart: (x, y) ->
         line = new Line(x, y)
-        log "-------"
         log @lines
         @lines.push(line)
         @view.draw(@)

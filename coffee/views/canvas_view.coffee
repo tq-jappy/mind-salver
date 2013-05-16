@@ -8,19 +8,19 @@ class CanvasView
     # 画面表示
     draw: (data) ->
         # log "draw"
-        @clean(data.canvasWidth, data.canvasHeight, data.grid)
+        @clean(data.canvasWidth, data.canvasHeight, data.grid, data.offsetX, data.offsetY)
 
         for item, i in data.items
             switch item.shape
                 when "circle"
-                    @drawCircle(item.x, item.y, item.focused)
+                    @drawCircle(item.x - data.offsetX, item.y - data.offsetY, item.focused)
                 when "triangle"
-                    @drawTriangle(item.x, item.y, item.focused)
+                    @drawTriangle(item.x - data.offsetX, item.y - data.offsetY, item.focused)
                 when "rectangle"
-                    @drawRectangle(item.x, item.y, item.focused)
+                    @drawRectangle(item.x - data.offsetX, item.y - data.offsetY, item.focused)
                 else
                     log "unknown shape #{item.shape}"
-            @drawText(item.text, item.element, item.x, item.y, i)
+            @drawText(item.text, item.element, item.x - data.offsetX, item.y - data.offsetY, i)
 
         @drawLines(data.lines)
 
@@ -105,7 +105,7 @@ class CanvasView
         return
 
     # 画面を初期化
-    clean: (width, height, grid=true) ->
+    clean: (width, height, grid=true, offsetX=0, offsetY=0) ->
         @ctx.clearRect(0, 0, width, height)
 
         return unless grid
@@ -117,15 +117,19 @@ class CanvasView
         @ctx.lineWidth = 1
         verticalLineNum = width / @cell.width
         horizontalLineNum = height / @cell.height
-        for h in [0..verticalLineNum]
+        for h in [0..verticalLineNum] # 縦線を引いていく
             @ctx.beginPath()
-            @ctx.moveTo(h * @cell.width, 0)
-            @ctx.lineTo(h * @cell.width, height)
+            x = h * @cell.width - offsetX
+            y = -offsetY
+            @ctx.moveTo(x, y)
+            @ctx.lineTo(x, y + height)
             @ctx.stroke()
-        for v in [0..horizontalLineNum]
+        for v in [0..horizontalLineNum] # 横線を引いていく
             @ctx.beginPath()
-            @ctx.moveTo(0, v * @cell.height)
-            @ctx.lineTo(width, v * @cell.height)
+            x = -offsetX
+            y = v * @cell.height - offsetY
+            @ctx.moveTo(x, y)
+            @ctx.lineTo(x + width, y)
             @ctx.stroke()
         @ctx.restore()
 
