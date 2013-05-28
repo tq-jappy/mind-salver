@@ -4,6 +4,7 @@ class ItemMovingState extends AbstractState
 
     onMouseUp: (x, y) ->
         @data.putItem(@item, x, y)
+        @canvas.itemPropertyViewModel.update(@item)
         @canvas.transit(new NormalState(@canvas, @data))
 
     # ドラッグ中のアイテムを (x, y) に移動する
@@ -11,5 +12,6 @@ class ItemMovingState extends AbstractState
         fpp = 1 # frames per pixel (何px動いたら画面更新するか)
         if (Math.abs(x - @item.x) >= fpp || Math.abs(y - @item.y) >= fpp)
             @data.moveItem(@item, x, y)
+            @canvas.itemPropertyViewModel.update(@item)
 
         return

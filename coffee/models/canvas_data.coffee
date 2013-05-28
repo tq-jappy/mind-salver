@@ -53,7 +53,6 @@ class CanvasData
         @view.draw(@)
         return
 
-
     # 全てのアイテムを更新
     updateOptions: (grid) ->
         @grid = grid

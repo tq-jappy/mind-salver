@@ -22,7 +22,7 @@ class Item
         $('#canvas').append(div)
 
     # 元に戻すために保持
-    save: () ->
+    saveCurrentPosition: () ->
         @saveX = @x
         @saveY = @y
 

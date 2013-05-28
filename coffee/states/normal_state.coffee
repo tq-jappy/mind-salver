@@ -7,7 +7,7 @@ class NormalState extends AbstractState
 
         if item?
             @canvas.itemPropertyViewModel.update(item)
-            item.save()
+            item.saveCurrentPosition()
             @canvas.transit(new ItemSelectedState(@canvas, @data, item))
         # else
         #     @canvas.itemPropertyViewModel.reset()
