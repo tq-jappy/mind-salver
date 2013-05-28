@@ -1,4 +1,4 @@
-# Canvas のメインコントローラ
+# Canvas のメイン
 class Canvas
     constructor: (@$canvas, @ctx, @width, @height) ->
         log "create Canvas."

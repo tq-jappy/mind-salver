@@ -1,26 +1,26 @@
 # 直線描画状態
 class ConnectorDrawingState extends AbstractState
-    constructor: (@canvas, @data, @line) ->
-        @beginItem = null
+    constructor: (@canvas, @data, @connector) ->
 
     onMouseUp: (x, y) ->
         item = @data.getItemAt(x, y)
 
         if item?
-            @data.lineExpand(@line, x, y)
+            # アイテムがあれば結ぶ
+            @connector.connect(item)
         else
-            @data.lineClear(@line)
+            @data.clearConnector(@connector)
         @canvas.transit(new ConnectorNormalState(@canvas, @data))
 
     onMouseMove: (x, y) ->
-        @data.lineExpand(@line, x, y)
+        @connector.stroke(x, y)
 
         # 終点になり得るアイテムに focus。それ以外は unfocus
         item = @data.getItemAt(x, y)
 
-        if @target?
-            @data.unfocus(@target)
+        if @prevFocusedItem?
+            @data.unfocus(@prevFocusedItem)
 
         if item?
             @data.focus(item)
-            @target = item
+            @prevFocusedItem = item

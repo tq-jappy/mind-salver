@@ -23,6 +23,7 @@ class CanvasView
             @drawText(item.text, item.element, item.x - data.offsetX, item.y - data.offsetY, i)
 
         @drawLines(data.lines, data.offsetX, data.offsetY)
+        @drawConnectors(data.connectors, data.offsetX, data.offsetY)
 
     drawText: (text, element, x, y, i) ->
         # fillText だと拡大時にぼやけるので、DOM を移動して表示
@@ -52,6 +53,25 @@ class CanvasView
                     if i > 0
                         @ctx.lineTo(p.x - offsetX, p.y - offsetY)
                 @ctx.stroke()
+
+        @ctx.restore()
+        return
+
+    drawConnectors: (connectors, offsetX=0, offsetY=0) ->
+        @ctx.save()
+        @ctx.lineWidth = 2
+        @ctx.fillStyle = '#960'
+        @ctx.strokeStyle = '#960'
+
+        for connector in connectors
+            @ctx.beginPath()
+            from = connector.from
+            @ctx.moveTo(from.x - offsetX, from.y - offsetY)
+            if connector.to?
+                @ctx.lineTo(connector.to.x - offsetX, connector.to.y - offsetY)
+            else
+                @ctx.lineTo(connector.x - offsetX, connector.y - offsetY)
+            @ctx.stroke()
 
         @ctx.restore()
         return

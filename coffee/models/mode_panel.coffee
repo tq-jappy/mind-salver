@@ -1,3 +1,4 @@
+# 編集モード
 class ModePanel
     constructor: (@obj, @canvas, @data) ->
 

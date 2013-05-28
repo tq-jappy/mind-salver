@@ -3,6 +3,7 @@ class CanvasData
     constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
         @lines = []
+        @connectors = []
         @offsetX = 0
         @offsetY = 0
         log "data init."
@@ -50,6 +51,15 @@ class CanvasData
         for line in @lines
             newLines.push(line) if line.points.length > 0
         @lines = newLines
+        @view.draw(@)
+        return
+
+    addConnector: (connector) ->
+        @connectors.push connector
+        return
+
+    clearConnector: () ->
+        @connectors.pop()
         @view.draw(@)
         return
 

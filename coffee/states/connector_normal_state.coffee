@@ -6,8 +6,9 @@ class ConnectorNormalState extends AbstractState
     onMouseDown: (x, y) ->
         item = @data.getItemAt(x, y)
         if item
-            line = @data.lineStart(x, y)
-            @canvas.transit(new ConnectorDrawingState(@canvas, @data, line))
+            connector = new Connector(item)
+            @data.addConnector(connector)
+            @canvas.transit(new ConnectorDrawingState(@canvas, @data, connector))
 
     onMouseMove: (x, y) ->
         item = @data.getItemAt(x, y)

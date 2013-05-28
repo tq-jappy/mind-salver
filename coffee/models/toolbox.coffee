@@ -1,3 +1,4 @@
+# ツールボックス
 class Toolbox
     constructor: (@canvas, @data) ->
         @shapes = [

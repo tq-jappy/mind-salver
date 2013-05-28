@@ -1,3 +1,4 @@
+# アイテム
 class Item
     @sequence = 0
 
