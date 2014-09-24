@@ -1,0 +1,12 @@
+{
+  "name": "mind-salver",
+  "description": "Mindmap editor using HTML5 canvas",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tq-jappy/mind-salver",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "knockout": "~3.2.0",
+    "jquery": "~2.1.1"
+  }
+}
