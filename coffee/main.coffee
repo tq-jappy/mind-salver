@@ -1,30 +1,15 @@
 $ ->
     $canvas = $("#canvas")
 
-    # canvasEle = document.createElement('canvas');
-    # canvasEle.className = "canvas"
-    # document.body.appendChild(canvasEle);
-    # alert(G_vmlCanvasManager)
-    # canvasEle = G_vmlCanvasManager.initElement(canvasEle) if G_vmlCanvasManager?
-    # $('#canvas').append(canvasEle)
-
     log "canvas initializing..."
-    # canvas = new fabric.Canvas("mainCanvas")
-
     fabricCanvas = new fabric.Canvas("canvas")
     fabricCanvas.add(
       new fabric.Rect({width: 20, height: 30, fill: 'blue', left: 50, top: 50})
     )
 
     ctx = $canvas[0].getContext("2d")
-    ctx.lineWidth = 1
-    ctx.font = "10pt Arial"
-    ctx.textAlign = "center"
-    ctx.textBaseline = "middle"
-    ctx.globalAlpha = 0.5
-    ctx.globalCompositeOperation = "source-over"
 
-    canvas = new Canvas($canvas, ctx, $canvas[0].width, $canvas[0].height)
+    canvas = new Canvas(fabricCanvas, ctx, $canvas[0].width, $canvas[0].height)
     canvas.data.addItem(new Item(50, 50, 1, 1, "circle"))
     canvas.data.addItem(new Item(123, 77, 1, 1, "triangle"))
     canvas.data.addItem(new Item(77, 255, 1, 1, "rectangle"))

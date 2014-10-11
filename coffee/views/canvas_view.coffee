@@ -1,5 +1,5 @@
 class CanvasView
-    constructor: (@ctx, @cell, @offsetX, @offsetY) ->
+    constructor: (@fabricCanvas, @ctx, @cell) ->
         @pi2 = Math.PI * 2 # 計算用 2π
         @ux = @cell.halfWidth - 5 # 計算用
         @uy = @cell.halfHeight - 5 # 計算用

@@ -1,6 +1,6 @@
 # Canvas 内のデータを管理するクラス
 class CanvasData
-    constructor: (@cell, @canvasWidth, @canvasHeight, @grid=true) ->
+    constructor: (@canvas, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
         @lines = []
         @connectors = []
