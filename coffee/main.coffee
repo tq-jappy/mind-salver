@@ -1,5 +1,5 @@
 $ ->
-    $canvas = $("#canvas > .canvas")
+    $canvas = $("#mainCanvas")
 
     # canvasEle = document.createElement('canvas');
     # canvasEle.className = "canvas"
@@ -7,6 +7,9 @@ $ ->
     # alert(G_vmlCanvasManager)
     # canvasEle = G_vmlCanvasManager.initElement(canvasEle) if G_vmlCanvasManager?
     # $('#canvas').append(canvasEle)
+
+    log "canvas initializing..."
+    # canvas = new fabric.Canvas("mainCanvas")
 
     ctx = $canvas[0].getContext("2d")
     ctx.lineWidth = 1
