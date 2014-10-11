@@ -22,11 +22,6 @@ body {
     /*background-color: yellow;*/
 }
 
-.canvas {
-    margin: 0;
-    padding: 0;
-}
-
 div {
     margin: 0;
 }
@@ -58,7 +53,7 @@ h1, h2, h3, h4, h5 {
     background-color: #ff6;
 }
 
-.canvas {
+.canvasContainer {
     margin: 0;
     padding: 0;
     background:#f0f0f0;

@@ -7,7 +7,6 @@
     <script src="./js/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="./js/bower_components/knockout/dist/knockout.js"></script>
     <script src="./js/bower_components/fabric/dist/fabric.min.js"></script>
-    <script src="./js/mind-salver.js"></script>
     <!--[if lt IE 9]>
     <script src="./js/bower_components/html5shiv/dist/html5shiv.min.js"></script>
     <![endif]-->
@@ -42,8 +41,8 @@
             </div>
     </section>
 
-    <div id="canvas" class="app" data-bind="event: {dblclick: onDblClick, mousedown: onMouseDown, mouseup: onMouseUp, mouseleave: onMouseLeave, mousemove: onMouseMove}">
-        <canvas width="800" height="300" id="mainCanvas" class="canvas">
+    <div id="canvasContainer" class="app" data-bind="event: {dblclick: onDblClick, mousedown: onMouseDown, mouseup: onMouseUp, mouseleave: onMouseLeave, mousemove: onMouseMove}">
+        <canvas width="800" height="300" id="canvas" class="canvas">
         </canvas>
 
         <div id="debug">
@@ -51,5 +50,6 @@
             <span data-bind="text:canvas.stateName"></span>
         </div>
     </div>
+    <script src="./js/mind-salver.js"></script>
 </body>
 </html>

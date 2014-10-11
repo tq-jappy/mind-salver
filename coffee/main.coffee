@@ -1,5 +1,5 @@
 $ ->
-    $canvas = $("#mainCanvas")
+    $canvas = $("#canvas")
 
     # canvasEle = document.createElement('canvas');
     # canvasEle.className = "canvas"
@@ -10,6 +10,11 @@ $ ->
 
     log "canvas initializing..."
     # canvas = new fabric.Canvas("mainCanvas")
+
+    fabricCanvas = new fabric.Canvas("canvas")
+    fabricCanvas.add(
+      new fabric.Rect({width: 20, height: 30, fill: 'blue', left: 50, top: 50})
+    )
 
     ctx = $canvas[0].getContext("2d")
     ctx.lineWidth = 1
@@ -29,7 +34,7 @@ $ ->
 
     # bindings
     canvasViewModel = new CanvasViewModel(canvas)
-    ko.applyBindings(canvasViewModel, $("#canvas")[0])
+    ko.applyBindings(canvasViewModel, $("#canvasContainer")[0])
 
     itemPropertyViewModel = new ItemPropertyViewModel()
     ko.applyBindings(itemPropertyViewModel, $("#item-property")[0])
