@@ -6,7 +6,7 @@ class Canvas
         @offsetX = @$canvas.offset().left
         @offsetY = @$canvas.offset().top
         @view = new CanvasView(@ctx, @cell, @offsetX, @offsetY)
-        @data = new CanvasData(@view, @cell, @width, @height)
+        @data = new CanvasData(@cell, @width, @height)
         @grid = true
         @itemPropertyViewModel = null
         @state = new NormalState(@, @data) # 初期状態

@@ -1,6 +1,6 @@
 # Canvas 内のデータを管理するクラス
 class CanvasData
-    constructor: (@view, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
+    constructor: (@cell, @canvasWidth, @canvasHeight, @grid=true) ->
         @items = []
         @lines = []
         @connectors = []
@@ -10,38 +10,35 @@ class CanvasData
 
     focus: (item) ->
         item.focused = true
-        @view.draw(@)
 
     moveArea: (dx, dy) ->
         log "moveArea (x, y) = (#{dx}, #{dy})"
         @offsetX += dx
         @offsetY += dy
-        @view.draw(@)
 
     unfocus: (item) ->
         item.focused = false
-        @view.draw(@)
 
+    # Polylineを書き始める
     lineStart: (x, y) ->
         line = new Line(x, y)
         log @lines
         @lines.push(line)
-        @view.draw(@)
         return line
 
+    # Polylineを書き終える
     lineEnd: (line, x, y) ->
         line.addPoint(x, y)
-        @view.draw(@)
         return
 
+    # Polyline中の最後の設定の位置を変更する
     lineExpand: (line, x, y) ->
         line.updateLastPoint(x, y)
-        @view.draw(@)
         return
 
+    # Polylineに接点を一つ加える
     lineKeep: (line, x, y) ->
         line.addPoint(x, y)
-        @view.draw(@)
         return
 
     lineClear: (line) ->
@@ -51,7 +48,6 @@ class CanvasData
         for line in @lines
             newLines.push(line) if line.points.length > 0
         @lines = newLines
-        @view.draw(@)
         return
 
     addConnector: (connector) ->
@@ -60,7 +56,6 @@ class CanvasData
 
     clearConnector: () ->
         @connectors.pop()
-        @view.draw(@)
         return
 
     # 全てのアイテムを更新
@@ -82,12 +77,10 @@ class CanvasData
             @items.push item
         else
             warn "cannot add item: #{item.shape}#{item.id}"
-        @view.draw(@)
         return
 
     # x, y 座標を調整しつつアイテムを更新
     moveItem: (item, x, y) ->
-        @view.draw(@) if item.x isnt x or item.y isnt y
         item.update(x, y)
         return
 
@@ -101,11 +94,9 @@ class CanvasData
         # 衝突判定
         if (@detectHit(x, y, item))
             item.restore()
-            @view.draw(@)
             return false
         else if item.x isnt x or item.y isnt y
             item.update(x, y)
-            @view.draw(@)
             item.clear()
 
         return true
