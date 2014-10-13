@@ -8,6 +8,22 @@ class CanvasData
         @offsetY = 0
         log "data init."
 
+        # TODO: グリッド情報を作成。こっちで管理するなら、
+        # CanvasData という名前が微妙かも。
+        lineOptions = { stroke: '#000033', strokeWidth: 1 }
+        gridLines = []
+        for x in [0..@canvasWidth / @cell.width]
+          _x = x * @cell.width
+          line = new fabric.Line([_x, 0, _x, @canvasHeight], lineOptions)
+          gridLines.push(line)
+        for y in [0..@canvasHeight / @cell.height]
+          _y = y * @cell.height
+          line = new fabric.Line([0, _y, @canvasWidth, _y], lineOptions)
+          gridLines.push(line)
+
+        # @canvas.add(new fabric.Group(gridLines, { left: 5, top: 5 }))
+        @canvas.add.apply(@canvas, gridLines)
+
     focus: (item) ->
         item.focused = true
 
@@ -75,6 +91,7 @@ class CanvasData
     addItem: (item) ->
         if @putItem(item, item.x, item.y)
             @items.push item
+            @canvas.add(item.fabricObject)
         else
             warn "cannot add item: #{item.shape}#{item.id}"
         return

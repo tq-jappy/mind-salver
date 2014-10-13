@@ -3,9 +3,6 @@ $ ->
 
     log "canvas initializing..."
     canvas = new fabric.Canvas("canvas")
-    canvas.add(
-      new fabric.Rect({width: 20, height: 30, fill: 'blue', left: 50, top: 50})
-    )
 
     ctx = $canvas[0].getContext("2d")
 
