@@ -6,7 +6,7 @@ $ ->
 
     ctx = $canvas[0].getContext("2d")
 
-    app = new Application(canvas, ctx, $canvas[0].width, $canvas[0].height)
+    app = new Application(canvas, ctx)
     app.data.addItem(new Item(50, 50, 1, 1, "circle"))
     app.data.addItem(new Item(123, 77, 1, 1, "triangle"))
     app.data.addItem(new Item(77, 255, 1, 1, "rectangle"))

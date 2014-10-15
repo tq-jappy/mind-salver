@@ -1,6 +1,6 @@
 # Canvas 内のデータを管理するクラス
 class CanvasData
-    constructor: (@canvas, @cell, @canvasWidth, @canvasHeight, @grid=true) ->
+    constructor: (@canvas, @cell, @grid=true) ->
         @items = []
         @lines = []
         @connectors = []
@@ -12,13 +12,13 @@ class CanvasData
         # CanvasData という名前が微妙かも。
         lineOptions = { stroke: '#000033', strokeWidth: 1 }
         gridLines = []
-        for x in [0..@canvasWidth / @cell.width]
+        for x in [0..@canvas.width / @cell.width]
           _x = x * @cell.width
-          line = new fabric.Line([_x, 0, _x, @canvasHeight], lineOptions)
+          line = new fabric.Line([_x, 0, _x, @canvas.height], lineOptions)
           gridLines.push(line)
-        for y in [0..@canvasHeight / @cell.height]
+        for y in [0..@canvas.height / @cell.height]
           _y = y * @cell.height
-          line = new fabric.Line([0, _y, @canvasWidth, _y], lineOptions)
+          line = new fabric.Line([0, _y, @canvas.width, _y], lineOptions)
           gridLines.push(line)
 
         # @canvas.add(new fabric.Group(gridLines, { left: 5, top: 5 }))

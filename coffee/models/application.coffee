@@ -1,11 +1,11 @@
 # アプリケーションメイン
 class Application
-    constructor: (@canvas, @ctx, @width, @height) ->
+    constructor: (@canvas, @ctx) ->
         log "create Canvas."
         log @canvas.getElement()
         @cell = {width: 50, height: 30, halfWidth: 25, halfHeight: 15, paddingX: 5, paddingY: 5}
         @view = new CanvasView(@canvas, @ctx, @cell)
-        @data = new CanvasData(@canvas, @cell, @width, @height)
+        @data = new CanvasData(@canvas, @cell)
         @grid = true
         @itemPropertyViewModel = null
         @state = new NormalState(@, @data) # 初期状態
