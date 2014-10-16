@@ -2,7 +2,7 @@ $ ->
     $canvas = $("#canvas")
 
     log "canvas initializing..."
-    canvas = new fabric.Canvas("canvas")
+    canvas = new fabric.Canvas("canvas", { selection: false })
 
     ctx = $canvas[0].getContext("2d")
 
