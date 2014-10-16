@@ -27,6 +27,11 @@ class CanvasViewModel
         @canvas.on 'object:modified', (e) =>
           # TODO not implemented
           log "modified"
+          e.target.set(
+            left: Math.round(e.target.left / 50) * 50,
+            top: Math.round(e.target.top / 30) * 30
+          )
+          @canvas.renderAll()
 
     onDblClick: (obj, e) =>
         [x, y] = @getEventPoint(e)

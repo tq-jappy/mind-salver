@@ -12,15 +12,15 @@ class Item
         switch @shape
           when "circle"
             @fabricObject = new fabric.Circle(
-              radius: 10, fill: 'green', left: @x, top: @y,
+              radius: 10, fill: 'green', left: @x, top: @y, originX: 'left', originY: 'top'
             )
           when "rectangle"
             @fabricObject = new fabric.Rect(
-              width: 20, height: 20, fill: 'green', left: @x, top: @y
+              width: 20, height: 20, fill: 'green', left: @x, top: @y, originX: 'left', originY: 'top'
             )
           when "triangle"
             @fabricObject = new fabric.Triangle(
-              width: 20, height: 20, fill: 'green', left: @x, top: @y
+              width: 20, height: 20, fill: 'green', left: @x, top: @y, originX: 'left', originY: 'top'
             )
         @fabricObject.hasControls = @fabricObject.hasBorders = false
 
