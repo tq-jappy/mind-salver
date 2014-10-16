@@ -10,7 +10,7 @@ class CanvasData
 
         # TODO: グリッド情報を作成。こっちで管理するなら、
         # CanvasData という名前が微妙かも。
-        lineOptions = { stroke: '#000033', strokeWidth: 1 }
+        lineOptions = { stroke: '#000033', strokeWidth: 1, selectable: false }
         gridLines = []
         for x in [0..@canvas.width / @cell.width]
           _x = x * @cell.width
