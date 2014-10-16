@@ -16,11 +16,11 @@ class Item
             )
           when "rectangle"
             @fabricObject = new fabric.Rect(
-              width: 20, height: 20, fill: 'purple', left: @x, top: @y
+              width: 20, height: 20, fill: 'green', left: @x, top: @y
             )
           when "triangle"
             @fabricObject = new fabric.Triangle(
-              width: 20, height: 20, fill: 'blue', left: @x, top: @y
+              width: 20, height: 20, fill: 'green', left: @x, top: @y
             )
         @fabricObject.hasControls = @fabricObject.hasBorders = false
 
