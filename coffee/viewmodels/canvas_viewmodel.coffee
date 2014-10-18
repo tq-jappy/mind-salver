@@ -22,7 +22,7 @@ class CanvasViewModel
         @canvas.on 'object:moving', (e) =>
           # TODO: not implemented
           target = e.target
-          log "moving"
+          # log "moving"
 
         @canvas.on 'object:modified', (e) =>
           # TODO not implemented
@@ -33,14 +33,13 @@ class CanvasViewModel
           )
           @canvas.renderAll()
 
+        @canvas.on 'mouse:down', (e) =>
+          @app.state.onMouseDown(e.e.offsetX, e.e.offsetY)
+          return false
+
     onDblClick: (obj, e) =>
         [x, y] = @getEventPoint(e)
         @app.state.onDblClick(x, y)
-        return false
-
-    onMouseDown: (obj, e) =>
-        [x, y] = @getEventPoint(e)
-        @app.state.onMouseDown(x, y)
         return false
 
     onMouseUp: (obj, e) =>
