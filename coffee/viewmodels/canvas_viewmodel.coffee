@@ -33,33 +33,16 @@ class CanvasViewModel
           )
           @canvas.renderAll()
 
+        @canvas.on 'mouse:up', (e) =>
+          @app.state.onMouseUp(e.e.offsetX, e.e.offsetY)
+          return false
+
         @canvas.on 'mouse:down', (e) =>
           @app.state.onMouseDown(e.e.offsetX, e.e.offsetY)
           return false
 
-    onDblClick: (obj, e) =>
-        [x, y] = @getEventPoint(e)
-        @app.state.onDblClick(x, y)
-        return false
+        @canvas.on 'mouse:move', (e) =>
+          @app.state.onMouseMove(e.e.offsetX, e.e.offsetY)
+          return false
 
-    onMouseUp: (obj, e) =>
-        [x, y] = @getEventPoint(e)
-        @app.state.onMouseUp(x, y)
-        return false
-
-    onMouseLeave: (obj, e) =>
-        [x, y] = @getEventPoint(e)
-        @app.state.onMouseLeave(x, y)
-        return false
-
-    onMouseMove: (obj, e) =>
-        [x, y] = @getEventPoint(e)
-        @app.state.onMouseMove(x, y)
-        return false
-
-    getEventPoint: (e) ->
-        cx = e.pageX - @app.offsetX
-        cy = e.pageY - @app.offsetY
-        @x(cx)
-        @y(cy)
-        return [cx, cy]
+        # TODO: double click and mouse leave events
