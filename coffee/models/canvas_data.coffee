@@ -38,6 +38,7 @@ class CanvasData
     # Polylineを書き始める
     lineStart: (x, y) ->
         line = new Line(x, y)
+        @canvas.add(line.fabricObject)
         log @lines
         @lines.push(line)
         return line
@@ -50,6 +51,7 @@ class CanvasData
     # Polyline中の最後の設定の位置を変更する
     lineExpand: (line, x, y) ->
         line.updateLastPoint(x, y)
+        @canvas.renderAll()
         return
 
     # Polylineに接点を一つ加える

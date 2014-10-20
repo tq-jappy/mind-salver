@@ -20,9 +20,7 @@ class CanvasViewModel
           log "selected"
 
         @canvas.on 'object:moving', (e) =>
-          # TODO: not implemented
           target = e.target
-          # log "moving"
 
         @canvas.on 'object:modified', (e) =>
           # TODO not implemented
