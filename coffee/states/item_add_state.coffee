@@ -2,6 +2,6 @@
 class ItemAddState extends AbstractState
     constructor: (@canvas, @data, @shape) ->
 
-    onMouseDown: (x, y) ->
-        item = new Item(x, y, 1, 1, @shape)
+    onMouseDown: (event) ->
+        item = new Item(event.e.offsetX, event.e.offsetY, 1, 1, @shape)
         @data.addItem(item)

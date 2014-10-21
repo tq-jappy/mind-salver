@@ -22,7 +22,7 @@ class Item
             @fabricObject = new fabric.Triangle(
               width: 20, height: 20, fill: 'green', left: @x, top: @y, originX: 'left', originY: 'top'
             )
-        @fabricObject.hasControls = @fabricObject.hasBorders = false
+        @fabricObject.selectable = false
 
         # TODO:
         div = document.createElement("span")

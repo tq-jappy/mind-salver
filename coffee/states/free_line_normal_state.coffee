@@ -2,6 +2,6 @@
 class FreeLineNormalState extends AbstractState
     constructor: (@canvas, @data) ->
 
-    onMouseDown: (x, y) ->
-        line = @data.lineStart(x, y)
+    onMouseDown: (event) ->
+        line = @data.lineStart(event.e.offsetX, event.e.offsetY)
         @canvas.transit(new FreeLineDrawingState(@canvas, @data, line))

@@ -2,15 +2,15 @@
 class AbstractState
     constructor: () ->
 
-    onDblClick: (x, y) ->
+    onDblClick: (event) ->
 
-    onMouseDown: (x, y) ->
+    onMouseDown: (event) ->
 
-    onMouseUp: (x, y) ->
+    onMouseUp: (event) ->
 
-    onMouseMove: (x, y) ->
+    onMouseMove: (event) ->
 
-    onMouseLeave: (x, y) ->
+    onMouseLeave: (event) ->
 
     toString: () ->
         @constructor.name

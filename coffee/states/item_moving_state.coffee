@@ -2,13 +2,14 @@
 class ItemMovingState extends AbstractState
     constructor: (@canvas, @data, @item) ->
 
-    onMouseUp: (x, y) ->
-        @data.putItem(@item, x, y)
+    onMouseUp: (event) ->
+        @data.putItem(@item, event.e.offsetX, event.e.offsetY)
         @canvas.itemPropertyViewModel.update(@item)
         @canvas.transit(new NormalState(@canvas, @data))
 
     # ドラッグ中のアイテムを (x, y) に移動する
-    onMouseMove: (x, y) ->
+    onMouseMove: (event) ->
+        [x, y] = [event.e.offsetX, event.e.offsetY]
         fpp = 1 # frames per pixel (何px動いたら画面更新するか)
         if (Math.abs(x - @item.x) >= fpp || Math.abs(y - @item.y) >= fpp)
             @data.moveItem(@item, x, y)

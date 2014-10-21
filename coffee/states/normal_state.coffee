@@ -2,8 +2,8 @@
 class NormalState extends AbstractState
     constructor: (@canvas, @data) ->
 
-    onMouseDown: (x, y) ->
-        item = @data.getItemAt(x, y)
+    onMouseDown: (event) ->
+        item = @data.getItemAt(event.e.offsetX, event.e.offsetY)
 
         if item?
             @canvas.itemPropertyViewModel.update(item)

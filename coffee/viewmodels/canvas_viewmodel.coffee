@@ -31,16 +31,16 @@ class CanvasViewModel
           )
           @canvas.renderAll()
 
-        @canvas.on 'mouse:up', (e) =>
-          @app.state.onMouseUp(e.e.offsetX, e.e.offsetY)
+        @canvas.on 'mouse:up', (event) =>
+          @app.state.onMouseUp(event)
           return false
 
-        @canvas.on 'mouse:down', (e) =>
-          @app.state.onMouseDown(e.e.offsetX, e.e.offsetY)
+        @canvas.on 'mouse:down', (event) =>
+          @app.state.onMouseDown(event)
           return false
 
-        @canvas.on 'mouse:move', (e) =>
-          @app.state.onMouseMove(e.e.offsetX, e.e.offsetY)
+        @canvas.on 'mouse:move', (event) =>
+          @app.state.onMouseMove(event)
           return false
 
         # TODO: double click and mouse leave events

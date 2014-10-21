@@ -2,8 +2,8 @@
 class StraightLineDrawingState extends AbstractState
     constructor: (@canvas, @data, @line) ->
 
-    onMouseUp: (x, y) ->
+    onMouseUp: (event) ->
         @canvas.transit(new StraightLineNormalState(@canvas, @data))
 
-    onMouseMove: (x, y) ->
-        @data.lineExpand(@line, x, y)
+    onMouseMove: (event) ->
+        @data.lineExpand(@line, event.e.offsetX, event.e.offsetY)

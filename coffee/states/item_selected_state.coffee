@@ -2,8 +2,8 @@
 class ItemSelectedState extends AbstractState
     constructor: (@canvas, @data, @item) ->
 
-    onMouseUp: (x, y) ->
+    onMouseUp: (event) ->
         @canvas.transit(new NormalState(@canvas, @data))
 
-    onMouseMove: (x, y) ->
+    onMouseMove: (event) ->
         @canvas.transit(new ItemMovingState(@canvas, @data, @item))
