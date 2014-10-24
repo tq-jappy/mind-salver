@@ -1,22 +1,21 @@
 # 直線描画状態
 class ConnectorDrawingState extends AbstractState
-    constructor: (@canvas, @data, @connector) ->
+    constructor: (@app, @canvas, @data, @connector) ->
 
     onMouseUp: (event) ->
-        item = @data.getItemAt(event.e.offsetX, event.e.offsetY)
+        item = event.target
 
         if item?
             # アイテムがあれば結ぶ
             @connector.connect(item)
         else
+            @canvas.remove(@connector.fabricObject)
             @data.clearConnector(@connector)
-        @canvas.transit(new ConnectorNormalState(@canvas, @data))
+        @app.transit(new ConnectorNormalState(@app, @canvas, @data))
 
     onMouseMove: (event) ->
         [x, y] = [event.e.offsetX, event.e.offsetY]
         @connector.stroke(x, y)
-        log "****************"
-        log @canvas
         @canvas.renderAll()
 
         # 終点になり得るアイテムに focus。それ以外は unfocus

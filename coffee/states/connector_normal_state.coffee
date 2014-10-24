@@ -9,7 +9,7 @@ class ConnectorNormalState extends AbstractState
         if item
             connector = new Connector(item)
             @data.addConnector(connector)
-            @app.transit(new ConnectorDrawingState(@canvas, @data, connector))
+            @app.transit(new ConnectorDrawingState(@app, @canvas, @data, connector))
 
     onMouseMove: (event) ->
         item = event.target
