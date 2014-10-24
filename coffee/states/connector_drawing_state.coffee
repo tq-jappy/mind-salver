@@ -15,6 +15,9 @@ class ConnectorDrawingState extends AbstractState
     onMouseMove: (event) ->
         [x, y] = [event.e.offsetX, event.e.offsetY]
         @connector.stroke(x, y)
+        log "****************"
+        log @canvas
+        @canvas.renderAll()
 
         # 終点になり得るアイテムに focus。それ以外は unfocus
         item = @data.getItemAt(x, y)

@@ -1,6 +1,8 @@
 # ツールボックス
 class Toolbox
-    constructor: (@canvas, @data) ->
+    constructor: (@app) ->
+        @canvas = @app.canvas
+        @data = @app.data
         @shapes = [
             {shape: "circle", value: "○"},
             {shape: "triangle", value: "△"},
@@ -13,12 +15,12 @@ class Toolbox
     update: (shape) ->
         switch (shape)
             when "circle", "triangle", "rectangle"
-                @canvas.transit(new ItemAddState(@canvas, @data, shape))
+                @app.transit(new ItemAddState(@canvas, @data, shape))
             when "connector"
-                @canvas.transit(new ConnectorNormalState(@canvas, @data))
+                @app.transit(new ConnectorNormalState(@app, @canvas, @data))
             when "straightline"
-                @canvas.transit(new StraightLineNormalState(@canvas, @data))
+                @app.transit(new StraightLineNormalState(@canvas, @data))
             when "freeline"
-                @canvas.transit(new FreeLineNormalState(@canvas, @data))
+                @app.transit(new FreeLineNormalState(@app, @canvas, @data))
             else
                 log "unknown shape: #{shape}"

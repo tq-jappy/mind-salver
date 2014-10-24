@@ -70,6 +70,7 @@ class CanvasData
 
     addConnector: (connector) ->
         @connectors.push connector
+        @canvas.add(connector.fabricObject)
         return
 
     clearConnector: () ->
