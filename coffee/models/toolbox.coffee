@@ -4,6 +4,7 @@ class Toolbox
         @canvas = @app.canvas
         @data = @app.data
         @shapes = [
+            {shape: "reset", value: "C"}
             {shape: "circle", value: "○"},
             {shape: "triangle", value: "△"},
             {shape: "rectangle", value: "□"},
@@ -14,6 +15,8 @@ class Toolbox
 
     update: (shape) ->
         switch (shape)
+            when "reset"
+                @app.transit(new NormalState(@app, @canvas, @data))
             when "circle", "triangle", "rectangle"
                 @app.transit(new ItemAddState(@canvas, @data, shape))
             when "connector"
