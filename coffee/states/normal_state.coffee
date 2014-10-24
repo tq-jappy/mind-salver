@@ -1,14 +1,15 @@
 # 通常状態
 class NormalState extends AbstractState
-    constructor: (@canvas, @data) ->
+    constructor: (@app, @canvas, @data) ->
 
     onMouseDown: (event) ->
-        item = @data.getItemAt(event.e.offsetX, event.e.offsetY)
+        item = event.target
 
         if item?
-            @canvas.itemPropertyViewModel.update(item)
-            item.saveCurrentPosition()
-            @canvas.transit(new ItemSelectedState(@canvas, @data, item))
+            # item = @data.findBy(fabricObject)
+            # @app.itemPropertyViewModel.update(item)
+            # item.saveCurrentPosition()
+            @app.transit(new ItemSelectedState(@app, @canvas, @data, item))
         # else
         #     @canvas.itemPropertyViewModel.reset()
         #     @canvas.transit(new AreaMovingState(@canvas, @data, x, y))

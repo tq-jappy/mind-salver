@@ -1,9 +1,9 @@
 # アイテム選択直後の状態
 class ItemSelectedState extends AbstractState
-    constructor: (@canvas, @data, @item) ->
+    constructor: (@app, @canvas, @data, @item) ->
 
     onMouseUp: (event) ->
-        @canvas.transit(new NormalState(@canvas, @data))
+        @app.transit(new NormalState(@app, @canvas, @data))
 
     onMouseMove: (event) ->
-        @canvas.transit(new ItemMovingState(@canvas, @data, @item))
+        @app.transit(new ItemMovingState(@app, @canvas, @data, @item))

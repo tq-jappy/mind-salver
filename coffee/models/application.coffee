@@ -8,7 +8,7 @@ class Application
         @data = new CanvasData(@canvas, @cell)
         @grid = true
         @itemPropertyViewModel = null
-        @state = new NormalState(@, @data) # 初期状態
+        @state = new NormalState(@, @canvas, @data) # 初期状態
         @stateName = ko.observable("")
 
     transit: (@state) ->
