@@ -11,6 +11,8 @@ class ItemMovingState extends AbstractState
         # TODO: move connectors
 
         # setCoords を呼び出してプロパティを更新する
+        x = Math.round(x / @data.cell.width) * @data.cell.width + (@data.cell.width / 2)
+        y = Math.round(y / @data.cell.height) * @data.cell.height + (@data.cell.height / 2)
         @item.set({left: x, top: y}).setCoords()
         @canvas.renderAll()
 
