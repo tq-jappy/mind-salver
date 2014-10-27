@@ -8,6 +8,7 @@ class ItemMovingState extends AbstractState
         # @data.putItem(@item, event.e.offsetX, event.e.offsetY)
         # @app.itemPropertyViewModel.update(@item)
         [x, y] = [event.e.offsetX, event.e.offsetY]
+
         # TODO: move connectors
 
         # setCoords を呼び出してプロパティを更新する
@@ -25,7 +26,13 @@ class ItemMovingState extends AbstractState
         [x, y] = [event.e.offsetX, event.e.offsetY]
         # @item.set({left: x, top: y})
         @item.setLeft(x).setTop(y)
-        # TODO: move connectors
+
+        # move connectors
+        for connector in (@item.outgogings ? [])
+            connector.set({ 'x1': x + (@item.currentWidth / 2), 'y1': y });
+        for connector in (@item.incomings ? [])
+            connector.set({ 'x2': x - (@item.currentWidth / 2), 'y2': y })
+
         @canvas.renderAll()
         # fpp = 1 # frames per pixel (何px動いたら画面更新するか)
         # if (Math.abs(x - @item.x) >= fpp || Math.abs(y - @item.y) >= fpp)

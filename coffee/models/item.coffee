@@ -23,6 +23,8 @@ class Item
               width: 20, height: 20, fill: 'green', left: @x, top: @y, originX: 'center', originY: 'center'
             )
         @fabricObject.selectable = false
+        @fabricObject.incomings = []
+        @fabricObject.outgoings = []
 
         # TODO:
         div = document.createElement("span")

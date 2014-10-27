@@ -10,6 +10,7 @@ class Connector
           fill: 'green',
           strokeWidth: 2
         })
+        @from.outgoings.push(@fabricObject)
 
     stroke: (@x, @y) ->
         @fabricObject.set({x1: @x1, y1: @y1, x2: @x, y2: @y})
@@ -18,4 +19,5 @@ class Connector
         # オブジェクトの左端に終点を置く
         x = @to.left - (@to.currentWidth / 2)
         y = @to.top
+        @to.incomings.push(@fabricObject)
         @fabricObject.set({x1: @x1, y1: @y1, x2: x, y2: y})
