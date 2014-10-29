@@ -16,6 +16,9 @@ class ItemMovingState extends AbstractState
         x = Math.floor(x / w) * w + (w / 2)
         h = @data.cell.height
         y = Math.floor(y / h) * h + (h / 2)
+
+        @moveConnectors(x, y)
+
         @item.set({left: x, top: y}).setCoords()
         @canvas.renderAll()
 
@@ -27,11 +30,7 @@ class ItemMovingState extends AbstractState
         # @item.set({left: x, top: y})
         @item.setLeft(x).setTop(y)
 
-        # move connectors
-        for connector in (@item.outgogings ? [])
-            connector.set({ 'x1': x + (@item.currentWidth / 2), 'y1': y });
-        for connector in (@item.incomings ? [])
-            connector.set({ 'x2': x - (@item.currentWidth / 2), 'y2': y })
+        @moveConnectors(x, y)
 
         @canvas.renderAll()
         # fpp = 1 # frames per pixel (何px動いたら画面更新するか)
@@ -40,3 +39,9 @@ class ItemMovingState extends AbstractState
             # @app.itemPropertyViewModel.update(@item)
 
         return
+
+    moveConnectors: (x, y) ->
+        for connector in @item.outgoings
+            connector.set({ 'x1': x + (@item.currentWidth / 2), 'y1': y });
+        for connector in @item.incomings
+            connector.set({ 'x2': x - (@item.currentWidth / 2), 'y2': y })
